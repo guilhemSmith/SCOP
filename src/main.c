@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/08 13:43:48 by gsmith            #+#    #+#             */
-/*   Updated: 2020/01/08 16:27:10 by gsmith           ###   ########.fr       */
+/*   Updated: 2020/01/08 16:40:00 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,5 +35,6 @@ int		main(void)
 		glfwSwapBuffers(window);
 		glfwPollEvents();
 	}
+	glfwTerminate();
 	return (0);
 }
