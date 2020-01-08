@@ -6,7 +6,7 @@
 #    By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/01/08 13:43:45 by gsmith            #+#    #+#              #
-#    Updated: 2020/01/08 14:08:57 by gsmith           ###   ########.fr        #
+#    Updated: 2020/01/08 16:11:52 by gsmith           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,6 +14,9 @@
 ifndef VERBOSE
 .SILENT: 
 endif
+
+# OS
+UNAME = $(shell uname)
 
 # Compiling macros
 
@@ -26,7 +29,11 @@ CFLAGS = -Wall -Werror -Wextra
 
 LIBFT = libft.a
 DIR_LIBFT = libft/
-INC_LIBFT = -L./$(DIR_LIBFT) -lft 
+FLAG_LIBFT = -L./$(DIR_LIBFT) -lft 
+
+GLFW = glfw
+DIR_GLFW = $(HOME)/.brew/include
+FLAG_GLFW = -L $(HOME)/.brew/lib -lglfw -framework OpenGl
 
 DIR_SRC = src
 DIR_BUILD = build
@@ -41,7 +48,7 @@ FILES_DEP = $(FILES_SRC:.c=.d)
 SRC = $(addprefix $(DIR_SRC)/, $(FILES_SRC))
 BUILD = $(addprefix $(DIR_BUILD)/, $(FILES_BUILD))
 DEP = $(addprefix $(DIR_DEP)/, $(FILES_DEP))
-INC = -I $(DIR_INC) -I $(DIR_LIBFT)
+INC = -I $(DIR_INC) -I $(DIR_LIBFT) -I $(HOME)/.brew/include
 
 # Color and output macros
 
@@ -69,6 +76,7 @@ PREFIX = $(subst $(S_N),$(S_D),$(WHITE))[$(NAME)] - $(NC)
 .PHONY: all
 all:
 	@Make -C libft all
+	@Make $(GLFW)
 	@Make $(NAME)
 
 .PHONY: re
@@ -78,11 +86,11 @@ re:
 
 # Binary and object files building
 
-$(NAME): $(BUILD) $(DIR_LIBFT)$(LIBFT)
+$(NAME): $(BUILD) $(DIR_LIBFT)$(LIBFT) 
 ifndef VERBOSE
 	printf "$(PREFIX)$(YELLOW)Compiling $(subst $(S_N),$(S_B),$(YELLOW))$(NAME)$(YELLOW) binary...$(NC)\r"
 endif
-	$(CC) $(CFLAGS) $(INC) $(INC_LIBFT) -o $@ $^
+	$(CC) $(CFLAGS) $(INC) $(FLAG_GLFW) $(FLAG_LIBFT) -o $@ $(BUILD)
 ifndef VERBOSE
 	printf "$(PREFIX)$(BLUE)Binary $(subst $(S_N),$(S_B),$(BLUE))$(NAME)$(BLUE) ready.      \n$(NC)"
 endif
@@ -104,10 +112,27 @@ ifndef VERBOSE
 	printf "$(PREFIX)$(YELLOW)Writing dependency $@...$(NC)\r"
 endif
 	mkdir -p $(DIR_DEP)
-	$(CC) $(CFLAGS) $(INC) -MT $(@:$(DIR_DEP)/%.d=$(DIR_BUILD)/%.o) -MM $< \
+	$(CC) $(CFLAGS) -D DEP=1 $(INC) -MT $(@:$(DIR_DEP)/%.d=$(DIR_BUILD)/%.o) -MM $< \
 		| sed 's,\(.*\)\.o[ :]*,\1.o $@ : ,g' > $@
 ifndef VERBOSE
 	printf "$(PREFIX)$(CYAN)Dependency $@ updated.  \n$(NC)"
+endif
+
+# glfw install and configuration
+
+.PHONY: $(GLFW)
+$(GLFW):
+ifeq ($(UNAME), Darwin)
+ifeq (, $(shell which brew))
+	$(error "brew is missing in $(PATH).")
+else
+ifeq (,$(shell brew list | grep $(GLFW)))
+	printf "$(PREFIX)$(subst $(S_N),$(S_B),$(YELLOW))$(GLFW)$(YELLOW) is missing, installing it from brew...$(NC)\r"
+	brew install glfw >/dev/null 2>/dev/null
+	printf "$(PREFIX)$(subst $(S_N),$(S_B),$(GREEN))$(GLFW)$(GREEN) installed.                              $(NC)\n"
+else
+endif
+endif
 endif
 
 # Files cleaning
