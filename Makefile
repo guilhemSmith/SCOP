@@ -6,7 +6,7 @@
 #    By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/01/08 13:43:45 by gsmith            #+#    #+#              #
-#    Updated: 2020/01/08 16:11:52 by gsmith           ###   ########.fr        #
+#    Updated: 2020/01/08 16:34:19 by gsmith           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -168,6 +168,15 @@ ifndef VERBOSE
 	printf "$(PREFIX)$(PURPLE)Binary $(subst $(S_N),$(S_B),$(PURPLE))$(NAME)$(PURPLE) deleted.          \n$(NC)"
 endif
 	@Make -C $(DIR_LIBFT) fclean
+
+# check the norme
+
+.PHONY: norme
+norme:
+	norminette src include  > .norm.tmp
+	(grep "Error" -B 1 .norm.tmp && echo "$(subst $(S_N),$(S_B),$(RED))Norme error(s) found$(NC)\n") \
+	|| echo "$(subst $(S_N),$(S_B),$(GREEN))No error found$(NC)\n"
+	rm .norm.tmp
 
 # include depend files
 
