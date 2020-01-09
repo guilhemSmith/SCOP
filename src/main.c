@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/08 13:43:48 by gsmith            #+#    #+#             */
-/*   Updated: 2020/01/09 18:23:52 by gsmith           ###   ########.fr       */
+/*   Updated: 2020/01/09 18:45:36 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,15 +67,22 @@ static GLFWwindow	*init_opengl(void)
 static void			process_input(GLFWwindow *window)
 {
 	static int		wireframe = 0;
+	static int		flag = 0;
+
 	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
 		glfwSetWindowShouldClose(window, 1);
-	if (glfwGetKey(window, GLFW_KEY_COMMA) == GLFW_PRESS)
+	if (glfwGetKey(window, GLFW_KEY_COMMA) == GLFW_PRESS && flag == 0)
 	{
+		flag = 1;
 		if (!wireframe)
 			glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 		else
 			glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 		wireframe = !wireframe;
+	}
+	if (flag == 1 && glfwGetKey(window, GLFW_KEY_COMMA) != GLFW_PRESS)
+	{
+		flag = 0;
 	}
 }
 
