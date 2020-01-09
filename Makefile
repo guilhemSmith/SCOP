@@ -6,7 +6,7 @@
 #    By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/01/08 13:43:45 by gsmith            #+#    #+#              #
-#    Updated: 2020/01/09 12:52:49 by gsmith           ###   ########.fr        #
+#    Updated: 2020/01/09 14:26:26 by gsmith           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -43,7 +43,8 @@ DIR_DEP = depend
 DIR_INC = include
 
 FILES_SRC = \
-	main.c
+	main.c \
+	shader.c
 FILES_BUILD = $(FILES_SRC:.c=.o)
 FILES_DEP = $(FILES_SRC:.c=.d)
 

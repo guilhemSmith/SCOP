@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/08 13:43:48 by gsmith            #+#    #+#             */
-/*   Updated: 2020/01/09 13:11:04 by gsmith           ###   ########.fr       */
+/*   Updated: 2020/01/09 14:57:42 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,23 +53,42 @@ static void			process_input(GLFWwindow *window)
 		glfwSetWindowShouldClose(window, 1);
 }
 
-static void			process_render(GLFWwindow *window)
+static void			process_render(unsigned int shaders, unsigned int vao)
 {
-	(void)window;
 	glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT);
+	glUseProgram(shaders);
+	glBindVertexArray(vao);
+	glDrawArrays(GL_TRIANGLES, 0, 3);
 }
 
 int					main(void)
 {
-	GLFWwindow	*window;
+	GLFWwindow		*window;
+	unsigned int	shader_program;
+	unsigned int	vao;
+	unsigned int	vbo;
+	static float	vertices[9] = {
+		-0.5f, -0.5f, 0.0f,
+		0.5f, -0.5f, 0.0f,
+		0.0f, 0.5f, 0.0f
+	};
 
 	if ((window = init_opengl()) == NULL)
 		return (-1);
+	if (!(shader_program = load_shader()))
+		return (-1);
+	glGenBuffers(1, &vbo);
+	glGenVertexArrays(1, &vao);
+	glBindVertexArray(vao);
+	glBindBuffer(GL_ARRAY_BUFFER, vbo);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+	glEnableVertexAttribArray(0);
 	while (!glfwWindowShouldClose(window))
 	{
 		process_input(window);
-		process_render(window);
+		process_render(shader_program, vao);
 		glfwSwapBuffers(window);
 		glfwPollEvents();
 	}
