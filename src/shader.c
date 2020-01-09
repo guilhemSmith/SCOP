@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/09 14:22:21 by gsmith            #+#    #+#             */
-/*   Updated: 2020/01/09 18:11:30 by gsmith           ###   ########.fr       */
+/*   Updated: 2020/01/09 18:24:20 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,6 @@ static unsigned int	link_shader(unsigned int *program_ref, \
 		ft_putendl_fd(info_log, 2);
 		return (-1);
 	}
-	glUseProgram(program_tmp);
 	glDeleteShader(shader_vertex);
 	glDeleteShader(shader_fragment);
 	*program_ref = program_tmp;

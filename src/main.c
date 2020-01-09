@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/08 13:43:48 by gsmith            #+#    #+#             */
-/*   Updated: 2020/01/09 17:07:11 by gsmith           ###   ########.fr       */
+/*   Updated: 2020/01/09 18:23:52 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ static void			process_render(unsigned int shaders, unsigned int vao)
 	(void)shaders;
 	glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT);
-	// glUseProgram(shaders);
+	glUseProgram(shaders);
 	glBindVertexArray(vao);
 	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 	glBindVertexArray(0);
