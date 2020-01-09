@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/08 13:43:48 by gsmith            #+#    #+#             */
-/*   Updated: 2020/01/08 16:58:47 by gsmith           ###   ########.fr       */
+/*   Updated: 2020/01/09 13:11:04 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static GLFWwindow	*init_opengl(void)
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
-	window = glfwCreateWindow(HEIGHT_DEF, WIDTH_DEF, "Hello World", NULL, NULL);
+	window = glfwCreateWindow(WIDTH_DEF, HEIGHT_DEF, "Hello World", NULL, NULL);
 	if (window == NULL)
 	{
 		ft_putendl_fd("Failed to create GLFW window", 2);
@@ -36,7 +36,13 @@ static GLFWwindow	*init_opengl(void)
 		return (NULL);
 	}
 	glfwMakeContextCurrent(window);
-	glViewport(0, 0, HEIGHT_DEF, WIDTH_DEF);
+	if (GLEW_OK != glewInit())
+	{
+		ft_putendl_fd("Failed to init GLEW:", 2);
+		glfwSetWindowShouldClose(window, 1);
+		return (NULL);
+	}
+	glViewport(0, 0, WIDTH_DEF, HEIGHT_DEF);
 	glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
 	return (window);
 }

@@ -6,7 +6,7 @@
 #    By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/01/08 13:43:45 by gsmith            #+#    #+#              #
-#    Updated: 2020/01/08 16:34:19 by gsmith           ###   ########.fr        #
+#    Updated: 2020/01/09 12:52:49 by gsmith           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,8 +32,10 @@ DIR_LIBFT = libft/
 FLAG_LIBFT = -L./$(DIR_LIBFT) -lft 
 
 GLFW = glfw
-DIR_GLFW = $(HOME)/.brew/include
-FLAG_GLFW = -L $(HOME)/.brew/lib -lglfw -framework OpenGl
+GLEW = glew
+EXTERN = $(GLFW) $(GLEW)
+DIR_EXTERN = $(HOME)/.brew/include
+FLAG_EXTERN = -L $(HOME)/.brew/lib -lglfw -lglew -framework OpenGl
 
 DIR_SRC = src
 DIR_BUILD = build
@@ -76,7 +78,7 @@ PREFIX = $(subst $(S_N),$(S_D),$(WHITE))[$(NAME)] - $(NC)
 .PHONY: all
 all:
 	@Make -C libft all
-	@Make $(GLFW)
+	@Make $(EXTERN)
 	@Make $(NAME)
 
 .PHONY: re
@@ -86,11 +88,11 @@ re:
 
 # Binary and object files building
 
-$(NAME): $(BUILD) $(DIR_LIBFT)$(LIBFT) 
+$(NAME): $(BUILD) $(DIR_LIBFT)$(LIBFT)
 ifndef VERBOSE
 	printf "$(PREFIX)$(YELLOW)Compiling $(subst $(S_N),$(S_B),$(YELLOW))$(NAME)$(YELLOW) binary...$(NC)\r"
 endif
-	$(CC) $(CFLAGS) $(INC) $(FLAG_GLFW) $(FLAG_LIBFT) -o $@ $(BUILD)
+	$(CC) $(CFLAGS) $(INC) $(FLAG_EXTERN) $(FLAG_LIBFT) -o $@ $(BUILD)
 ifndef VERBOSE
 	printf "$(PREFIX)$(BLUE)Binary $(subst $(S_N),$(S_B),$(BLUE))$(NAME)$(BLUE) ready.      \n$(NC)"
 endif
@@ -118,7 +120,7 @@ ifndef VERBOSE
 	printf "$(PREFIX)$(CYAN)Dependency $@ updated.  \n$(NC)"
 endif
 
-# glfw install and configuration
+# glfw and glew install and configuration
 
 .PHONY: $(GLFW)
 $(GLFW):
@@ -128,8 +130,23 @@ ifeq (, $(shell which brew))
 else
 ifeq (,$(shell brew list | grep $(GLFW)))
 	printf "$(PREFIX)$(subst $(S_N),$(S_B),$(YELLOW))$(GLFW)$(YELLOW) is missing, installing it from brew...$(NC)\r"
-	brew install glfw >/dev/null 2>/dev/null
+	brew install $(GLFW) >/dev/null 2>/dev/null
 	printf "$(PREFIX)$(subst $(S_N),$(S_B),$(GREEN))$(GLFW)$(GREEN) installed.                              $(NC)\n"
+else
+endif
+endif
+endif
+
+.PHONY: $(GLEW)
+$(GLEW):
+ifeq ($(UNAME), Darwin)
+ifeq (, $(shell which brew))
+	$(error "brew is missing in $(PATH).")
+else
+ifeq (,$(shell brew list | grep $(GLEW)))
+	printf "$(PREFIX)$(subst $(S_N),$(S_B),$(YELLOW))$(GLEW)$(YELLOW) is missing, installing it from brew...$(NC)\r"
+	brew install $(GLEW) >/dev/null 2>/dev/null
+	printf "$(PREFIX)$(subst $(S_N),$(S_B),$(GREEN))$(GLEW)$(GREEN) installed.                              $(NC)\n"
 else
 endif
 endif
