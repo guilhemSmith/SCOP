@@ -1,32 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   scop.h                                             :+:      :+:    :+:   */
+/*   utils_main.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/01/08 13:44:02 by gsmith            #+#    #+#             */
-/*   Updated: 2020/01/09 17:06:53 by gsmith           ###   ########.fr       */
+/*   Created: 2020/01/09 16:03:24 by gsmith            #+#    #+#             */
+/*   Updated: 2020/01/09 17:48:43 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef SCOP_H
-# define SCOP_H
-
-# define GL_SILENCE_DEPRECATION
-# define WIDTH_DEF 800
-# define HEIGHT_DEF 600
+#ifndef UTILS_MAIN_H
+# define UTILS_MAIN_H
 
 # ifndef DEP
 #  include <GL/glew.h>
 #  include <GLFW/glfw3.h>
 # endif
 
-unsigned int		load_shader(unsigned int *shader_program);
-unsigned int		load_object(void);
-
-static GLFWwindow	*init_opengl(void);
-static void			process_input(GLFWwindow *window);
-static void			process_render(unsigned int shaders, unsigned int vao);
+int					close_soft(int exit_code, unsigned int *shader_program);
+void				framebuffer_size_callback(GLFWwindow *window, \
+	int width, int height);
 
 #endif

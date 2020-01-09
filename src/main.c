@@ -6,17 +6,34 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/08 13:43:48 by gsmith            #+#    #+#             */
-/*   Updated: 2020/01/09 14:57:42 by gsmith           ###   ########.fr       */
+/*   Updated: 2020/01/09 17:07:11 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "scop.h"
+#include "libft.h"
+#include "utils_main.h"
 
-void				framebuffer_size_callback(GLFWwindow *window, \
-						int width, int height)
+int					main(void)
 {
-	(void)window;
-	glViewport(0, 0, width, height);
+	GLFWwindow		*window;
+	unsigned int	shader_program;
+	unsigned int	vao;
+
+	if ((window = init_opengl()) == NULL)
+		return (-1);
+	if (load_shader(&shader_program))
+		return (close_soft(-1, NULL));
+	if (!(vao = load_object()))
+		return (close_soft(-1, &shader_program));
+	while (!glfwWindowShouldClose(window))
+	{
+		process_input(window);
+		process_render(shader_program, vao);
+		glfwSwapBuffers(window);
+		glfwPollEvents();
+	}
+	return (close_soft(0, &shader_program));
 }
 
 static GLFWwindow	*init_opengl(void)
@@ -49,49 +66,26 @@ static GLFWwindow	*init_opengl(void)
 
 static void			process_input(GLFWwindow *window)
 {
+	static int		wireframe = 0;
 	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
 		glfwSetWindowShouldClose(window, 1);
+	if (glfwGetKey(window, GLFW_KEY_COMMA) == GLFW_PRESS)
+	{
+		if (!wireframe)
+			glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+		else
+			glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+		wireframe = !wireframe;
+	}
 }
 
 static void			process_render(unsigned int shaders, unsigned int vao)
 {
+	(void)shaders;
 	glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT);
-	glUseProgram(shaders);
+	// glUseProgram(shaders);
 	glBindVertexArray(vao);
-	glDrawArrays(GL_TRIANGLES, 0, 3);
-}
-
-int					main(void)
-{
-	GLFWwindow		*window;
-	unsigned int	shader_program;
-	unsigned int	vao;
-	unsigned int	vbo;
-	static float	vertices[9] = {
-		-0.5f, -0.5f, 0.0f,
-		0.5f, -0.5f, 0.0f,
-		0.0f, 0.5f, 0.0f
-	};
-
-	if ((window = init_opengl()) == NULL)
-		return (-1);
-	if (!(shader_program = load_shader()))
-		return (-1);
-	glGenBuffers(1, &vbo);
-	glGenVertexArrays(1, &vao);
-	glBindVertexArray(vao);
-	glBindBuffer(GL_ARRAY_BUFFER, vbo);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
-	glEnableVertexAttribArray(0);
-	while (!glfwWindowShouldClose(window))
-	{
-		process_input(window);
-		process_render(shader_program, vao);
-		glfwSwapBuffers(window);
-		glfwPollEvents();
-	}
-	glfwTerminate();
-	return (0);
+	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+	glBindVertexArray(0);
 }
