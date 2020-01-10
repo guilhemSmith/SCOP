@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/09 17:01:26 by gsmith            #+#    #+#             */
-/*   Updated: 2020/01/10 17:28:05 by gsmith           ###   ########.fr       */
+/*   Updated: 2020/01/10 18:09:30 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,4 +79,33 @@ unsigned int		next_line(const char *data)
 	while (c && c != '\n')
 		c = data[++i];
 	return (c == 0 ? i : i + 1);
+}
+
+char				*get_word(const char *data, unsigned int *read_head)
+{
+	unsigned int	i;
+	char			c;
+	unsigned int	bound[2];
+
+	ft_bzero((void *)bound, sizeof(unsigned int) * 2);
+	i = *read_head;
+	c = data[i];
+	while (c && ft_isspace(c))
+		c = data[++i];
+	if (c == 0)
+		return (NULL);
+	if (c == '#')
+	{
+		i += next_line(data + i);
+		*read_head = i;
+		return (get_word(data, read_head));
+	}
+	bound[0] = i;
+	while (c && !ft_isspace(c))
+		c = data[++i];
+	bound[1] = i;
+	while (c && ft_isspace(c))
+		c = data[++i];
+	*read_head = i;
+	return (ft_strsub(data, bound[0], bound[1] - bound[0]));
 }

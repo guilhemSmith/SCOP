@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/10 16:18:06 by gsmith            #+#    #+#             */
-/*   Updated: 2020/01/10 17:45:34 by gsmith           ###   ########.fr       */
+/*   Updated: 2020/01/10 18:10:07 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,10 @@ static unsigned int		parse_ppm(const char *filepath, unsigned char **data, \
 	(void)data;
 	if (read_file(&file_content, filepath))
 		return (-1);
-	ft_putendl("hello there");
+	read_head = 0;
+	char *toast = get_word(file_content, &read_head);
+	ft_putstr(toast);
+	ft_memdel((void *)&toast);
 	ft_memdel((void *)&file_content);
 	return (0);
 	if (get_format(file_content, &read_head, &raw_format))
