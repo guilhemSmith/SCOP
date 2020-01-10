@@ -6,7 +6,7 @@
 #    By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/01/08 13:43:45 by gsmith            #+#    #+#              #
-#    Updated: 2020/01/09 17:33:36 by gsmith           ###   ########.fr        #
+#    Updated: 2020/01/10 17:38:59 by gsmith           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -47,7 +47,8 @@ FILES_SRC = \
 	loader.c \
 	shader.c \
 	utils_files.c \
-	utils_main.c
+	utils_main.c \
+	texture.c
 FILES_BUILD = $(FILES_SRC:.c=.o)
 FILES_DEP = $(FILES_SRC:.c=.d)
 

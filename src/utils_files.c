@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/09 17:01:26 by gsmith            #+#    #+#             */
-/*   Updated: 2020/01/09 18:09:56 by gsmith           ###   ########.fr       */
+/*   Updated: 2020/01/10 17:28:05 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,4 +67,16 @@ unsigned int		read_file(const char **output, const char *filename)
 		return (-1);
 	*output = file_txt;
 	return (0);
+}
+
+unsigned int		next_line(const char *data)
+{
+	unsigned int	i;
+	char			c;
+
+	i = 0;
+	c = data[i];
+	while (c && c != '\n')
+		c = data[++i];
+	return (c == 0 ? i : i + 1);
 }
