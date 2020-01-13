@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/10 16:18:06 by gsmith            #+#    #+#             */
-/*   Updated: 2020/01/10 18:10:07 by gsmith           ###   ########.fr       */
+/*   Updated: 2020/01/13 12:45:24 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,13 @@
 #include "utils_file.h"
 #include "libft.h"
 
-unsigned int	load_texture(unsigned int *texture, const char *filepath)
+unsigned int			load_texture(unsigned int *texture, \
+	const char *filepath)
 {
 	int				width;
 	int				height;
 	unsigned char	*data;
-	
+
 	if (parse_ppm(filepath, &data, &width, &height))
 	{
 		ft_putstr_fd("Failed to load texture from file: ", 2);
@@ -51,51 +52,35 @@ static unsigned int		parse_ppm(const char *filepath, unsigned char **data, \
 	if (read_file(&file_content, filepath))
 		return (-1);
 	read_head = 0;
-	char *toast = get_word(file_content, &read_head);
-	ft_putstr(toast);
-	ft_memdel((void *)&toast);
-	ft_memdel((void *)&file_content);
-	return (0);
 	if (get_format(file_content, &read_head, &raw_format))
 	{
-		ft_memdel((void *)file_content);
+		ft_memdel((void **)&file_content);
 		return (-1);
 	}
+	if (raw_format)
+		ft_putendl("raw file");
+	else
+		ft_putendl("ascii file");
+	ft_memdel((void **)&file_content);
+	return (0);
 }
 
 static unsigned int		get_format(const char *data, unsigned int *read_head, \
 	int *flag)
 {
-	unsigned int	bound[2];
-	unsigned int	i;
-	int				next_bound;
-	char			c;
+	char	*word;
 
-	(void)flag;
-	(void)read_head;
-	next_bound = 0;
-	bound[0] = 0;
-	bound[1] = 0;
-	i = 0;
-	c = data[i];
-	while (next_bound != 2 && c)
+	if (!(word = get_word(data, read_head)))
+		return (-1);
+	if (!ft_strcmp(word, TEXTURE_FLAG_FORMAT_ASCII))
+		*flag = 0;
+	else if (!ft_strcmp(word, TEXTURE_FLAG_FORMAT_RAW))
+		*flag = 1;
+	else
 	{
-		while (c && ft_isspace(c))
-			c = data[++i];
-		while (next_bound != 2 && c && c != '\n')
-		{
-			if (c != '#')
-				bound[next_bound++] = i;
-			else
-			{
-				if (next_bound == 1)
-					bound[next_bound++] = i - 1;
-				i = next_line(data + i);
-			}
-			c = data[++i];
-		}
-		while (c && ft_isspace(c))
-			c = data[++i];
+		ft_memdel((void **)&word);
+		return (-1);
 	}
-	return (next_bound != 2 ? -1 : 0);
+	ft_memdel((void **)&word);
+	return (0);
 }

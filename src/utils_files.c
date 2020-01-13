@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/09 17:01:26 by gsmith            #+#    #+#             */
-/*   Updated: 2020/01/10 18:09:30 by gsmith           ###   ########.fr       */
+/*   Updated: 2020/01/13 11:58:26 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,6 @@ char				*get_word(const char *data, unsigned int *read_head)
 	char			c;
 	unsigned int	bound[2];
 
-	ft_bzero((void *)bound, sizeof(unsigned int) * 2);
 	i = *read_head;
 	c = data[i];
 	while (c && ft_isspace(c))

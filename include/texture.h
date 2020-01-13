@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/10 16:19:22 by gsmith            #+#    #+#             */
-/*   Updated: 2020/01/10 17:45:42 by gsmith           ###   ########.fr       */
+/*   Updated: 2020/01/13 11:46:35 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,9 @@
 # ifndef DEP
 #  include <GL/glew.h>
 # endif
+
+# define TEXTURE_FLAG_FORMAT_ASCII "P3"
+# define TEXTURE_FLAG_FORMAT_RAW "P6"
 
 static unsigned int		parse_ppm(const char *filepath, unsigned char **data, \
 	int *width, int *height);

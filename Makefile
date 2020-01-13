@@ -6,7 +6,7 @@
 #    By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/01/08 13:43:45 by gsmith            #+#    #+#              #
-#    Updated: 2020/01/10 17:38:59 by gsmith           ###   ########.fr        #
+#    Updated: 2020/01/13 12:34:50 by gsmith           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,6 +23,7 @@ UNAME = $(shell uname)
 NAME = scop
 
 CC = clang
+DEBUG = -g
 CFLAGS = -Wall -Werror -Wextra
 
 ## directories and files
