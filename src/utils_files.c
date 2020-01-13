@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/09 17:01:26 by gsmith            #+#    #+#             */
-/*   Updated: 2020/01/13 11:58:26 by gsmith           ###   ########.fr       */
+/*   Updated: 2020/01/13 13:07:57 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static unsigned int	fuse_read(unsigned int fd, char **txt, char *buf)
 		buf[read_flag] = 0;
 		if (!(new_ptr = ft_strjoin(*txt, buf)))
 		{
-			ft_putendl_fd("malloc error", 2);
+			ft_putendl_fd("ERROR::FILE::MALLOC_FAILED", 2);
 			ft_strdel(txt);
 			return (-1);
 		}
@@ -37,7 +37,7 @@ static unsigned int	fuse_read(unsigned int fd, char **txt, char *buf)
 	close(fd);
 	if (read_flag < 0)
 	{
-		ft_putendl_fd("Error while reading a file.", 2);
+		ft_putendl_fd("ERROR::FILE::READING_FAILED", 2);
 		ft_strdel(txt);
 		new_ptr = NULL;
 		return (-1);
@@ -53,14 +53,14 @@ unsigned int		read_file(const char **output, const char *filename)
 
 	if ((fd = open(filename, O_RDONLY)) < 0)
 	{
-		ft_putstr_fd("Can't open file: ", 2);
+		ft_putstr_fd("ERROR::FILE::OPEN_FAILED\nFILE:", 2);
 		ft_putendl_fd(filename, 2);
 		return (-1);
 	}
 	if (!(file_txt = ft_strdup("")))
 	{
 		close(fd);
-		ft_putendl_fd("malloc error", 2);
+		ft_putendl_fd("ERROR::FILE::MALLOC_FAILED", 2);
 		return (-1);
 	}
 	if (fuse_read(fd, &file_txt, buf))
