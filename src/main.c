@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/08 13:43:48 by gsmith            #+#    #+#             */
-/*   Updated: 2020/01/13 12:42:22 by gsmith           ###   ########.fr       */
+/*   Updated: 2020/01/13 16:54:04 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,14 +26,15 @@ int					main(void)
 		return (-1);
 	if (load_shader(&shader_program))
 		return (close_soft(-1, NULL));
+	// load_texture(&texture, "ressources/textures/toast.ppm");
 	load_texture(&texture, "ressources/textures/lies_ascii.ppm");
-	(void)vao;
-	// if (!(vao = load_object()))
-	// 	return (close_soft(-1, &shader_program));
+	// load_texture(&texture, "ressources/textures/lies_raw.ppm");
+	if (!(vao = load_object()))
+		return (close_soft(-1, &shader_program));
 	while (!glfwWindowShouldClose(window))
 	{
 		process_input(window);
-		// process_render(shader_program, vao, texture);
+		process_render(shader_program, vao, texture);
 		glfwSwapBuffers(window);
 		glfwPollEvents();
 	}
@@ -90,15 +91,15 @@ static void			process_input(GLFWwindow *window)
 	}
 }
 
-// static void			process_render(unsigned int shaders, unsigned int vao, unsigned int texture)
-// {
-// 	(void)shaders;
-// 	glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
-// 	glClear(GL_COLOR_BUFFER_BIT);
-// 	glActiveTexture(GL_TEXTURE0);
-// 	glBindTexture(GL_TEXTURE_2D, texture);
-// 	glUseProgram(shaders);
-// 	glBindVertexArray(vao);
-// 	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
-// 	glBindVertexArray(0);
-// }
+static void			process_render(unsigned int shaders, unsigned int vao, unsigned int texture)
+{
+	(void)shaders;
+	glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+	glClear(GL_COLOR_BUFFER_BIT);
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, texture);
+	glUseProgram(shaders);
+	glBindVertexArray(vao);
+	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+	glBindVertexArray(0);
+}

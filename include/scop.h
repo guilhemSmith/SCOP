@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/08 13:44:02 by gsmith            #+#    #+#             */
-/*   Updated: 2020/01/10 17:40:13 by gsmith           ###   ########.fr       */
+/*   Updated: 2020/01/13 15:57:37 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,6 @@ unsigned int		load_texture(unsigned int *texture, const char *filepath);
 
 static GLFWwindow	*init_opengl(void);
 static void			process_input(GLFWwindow *window);
-// static void			process_render(unsigned int shaders, unsigned int vao, unsigned int texture);
+static void			process_render(unsigned int shaders, unsigned int vao, unsigned int texture);
 
 #endif
