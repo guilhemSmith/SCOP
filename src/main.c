@@ -6,13 +6,14 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/08 13:43:48 by gsmith            #+#    #+#             */
-/*   Updated: 2020/01/14 14:32:13 by gsmith           ###   ########.fr       */
+/*   Updated: 2020/01/14 19:09:26 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "scop.h"
 #include "libft.h"
 #include "utils_main.h"
+#include "matrix.h"
 #include <math.h>
 
 int					main(void)
@@ -94,12 +95,18 @@ static void			process_input(GLFWwindow *window)
 
 static void			process_render(unsigned int shaders, unsigned int vao, unsigned int texture)
 {
-	(void)shaders;
+	float			tmp[16];
+	float			transf[16];
+
+	mat4_set_diagonal(transf, 1);
+	mat4_rotate(transf, 90, (const float[3]){0, 1, 1}, tmp);
+	mat4_scale(tmp, (const float[3]){0.5, 0.5, 0.5}, transf);
 	glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT);
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, texture);
 	glUseProgram(shaders);
+	glUniformMatrix4fv(glGetUniformLocation(shaders, "transform"), 1, GL_FALSE, transf);
 	glBindVertexArray(vao);
 	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 	glBindVertexArray(0);

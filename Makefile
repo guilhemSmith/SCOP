@@ -6,7 +6,7 @@
 #    By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/01/08 13:43:45 by gsmith            #+#    #+#              #
-#    Updated: 2020/01/13 12:34:50 by gsmith           ###   ########.fr        #
+#    Updated: 2020/01/14 18:43:10 by gsmith           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -45,11 +45,13 @@ DIR_INC = include
 
 FILES_SRC = \
 	main.c \
+	matrix.c \
 	loader.c \
 	shader.c \
 	utils_files.c \
 	utils_main.c \
-	texture.c
+	texture.c \
+	vector.c
 FILES_BUILD = $(FILES_SRC:.c=.o)
 FILES_DEP = $(FILES_SRC:.c=.d)
 
