@@ -6,13 +6,20 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/09 14:22:21 by gsmith            #+#    #+#             */
-/*   Updated: 2020/01/09 18:24:20 by gsmith           ###   ########.fr       */
+/*   Updated: 2020/01/14 14:38:02 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shader.h"
 #include "libft.h"
 #include "utils_file.h"
+
+void				shader_set_int(unsigned int shader, const char *field, \
+	int value)
+{
+	glUseProgram(shader);
+	glUniform1i(glGetUniformLocation(shader, field), value);
+}
 
 unsigned int		load_shader(unsigned int *shader_program)
 {
