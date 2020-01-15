@@ -1,23 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   matrix.h                                           :+:      :+:    :+:   */
+/*   utils_matrix.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/01/14 15:10:11 by gsmith            #+#    #+#             */
-/*   Updated: 2020/01/15 17:24:38 by gsmith           ###   ########.fr       */
+/*   Created: 2020/01/15 17:03:30 by gsmith            #+#    #+#             */
+/*   Updated: 2020/01/15 17:25:29 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MATRIX_H
-# define MATRIX_H
+#include "libft.h"
 
-void		mat4_set_diagonal(float mat[16], const float coef);
-void		mat4_perspective(float rad, float ratio, float z_range[2], \
-	float persp[16]);
-void		mat4_translate(float mat[16], const float vec[3]);
-void		mat4_rotate(float mat[16], float rad, const float vec[3]);
-void		mat4_scale(float mat[16], const float coef[3]);
+void	mat4_mult(const float left[16], float right[16])
+{
+	float	tmp[16];
+	int		i;
+	int		j;
+	int		k;
 
-#endif
+	ft_memcpy((void *)tmp, (const void *)right, sizeof(float) * 16);
+	i = -1;
+	while (++i < 4)
+	{
+		j = -1;
+		while (++j < 4)
+		{
+			right[i * 4 + j] = 0;
+			k = -1;
+			while (++k < 4)
+				right[i * 4 + j] += left[i * 4 + k] * tmp[k * 4 + j];
+		}
+	}
+}

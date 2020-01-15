@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/08 13:43:48 by gsmith            #+#    #+#             */
-/*   Updated: 2020/01/15 15:36:46 by gsmith           ###   ########.fr       */
+/*   Updated: 2020/01/15 18:01:17 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,12 +29,13 @@ int					main(void)
 		return (-1);
 	if (load_shader(&shader_program))
 		return (close_soft(-1, NULL));
+	if (!(vao = load_object()))
+		return (close_soft(-1, &shader_program));
 	// load_texture(&texture, "ressources/textures/toast.ppm");
 	// load_texture(&texture, "ressources/textures/honest.ppm");
 	load_texture(&texture, "ressources/textures/lies_ascii.ppm");
 	// load_texture(&texture, "ressources/textures/lies_raw.ppm");
-	if (!(vao = load_object()))
-		return (close_soft(-1, &shader_program));
+	glEnable(GL_DEPTH_TEST);
 	while (!glfwWindowShouldClose(window))
 	{
 		process_input(window);
@@ -95,31 +96,27 @@ static void			process_input(GLFWwindow *window)
 	}
 }
 
-static void			mat4_print(const float mat[16])
-{
-	printf("\n%3f, %3f, %3f, %3f\n%3f, %3f, %3f, %3f\n%3f, %3f, %3f, %3f\n%3f, %3f, %3f, %3f\n", \
-		mat[0], mat[1], mat[2], mat[3], mat[4], mat[5], mat[6], mat[7], \
-		mat[8], mat[9], mat[10], mat[11], mat[12], mat[13], mat[14], mat[15]);
-}
-
 static void			process_render(unsigned int shaders, unsigned int vao, unsigned int texture)
 {
-	float			transf[16];
+	float			model[16];
+	float			view[16];
+	float			projection[16];
 
-	mat4_set_diagonal(transf, 1);
-	printf("loop\n");
-	mat4_print(transf);
-	mat4_translate(transf,(const float[3]){0.5, -0.5, 0});
-	mat4_rotate(transf, (float)glfwGetTime(), (const float[3]){1, 0, 0});
-	mat4_scale(transf, (const float[3]){0.8, 0.8, 0.8});
-	mat4_print(transf);
+	mat4_set_diagonal(model, 1);
+	mat4_rotate(model, (float)glfwGetTime(), (const float[3]){0.5, 1, 0});
+	mat4_set_diagonal(view, 1);
+	mat4_translate(view, (const float[3]){0, 0, -3});
+	mat4_perspective(45, WIDTH_DEF / HEIGHT_DEF, (float[2]){0.1, 100}, projection);
 	glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
-	glClear(GL_COLOR_BUFFER_BIT);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, texture);
 	glUseProgram(shaders);
-	glUniformMatrix4fv(glGetUniformLocation(shaders, "transform"), 1, GL_FALSE, transf);
+	glUniformMatrix4fv(glGetUniformLocation(shaders, "model"), 1, GL_FALSE, model);
+	glUniformMatrix4fv(glGetUniformLocation(shaders, "view"), 1, GL_FALSE, view);
+	glUniformMatrix4fv(glGetUniformLocation(shaders, "projection"), 1, GL_FALSE, projection);
 	glBindVertexArray(vao);
-	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+	glDrawArrays(GL_TRIANGLES, 0, 36);
+	// glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 	glBindVertexArray(0);
 }

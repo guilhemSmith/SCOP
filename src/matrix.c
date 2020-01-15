@@ -6,36 +6,15 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/14 16:11:03 by gsmith            #+#    #+#             */
-/*   Updated: 2020/01/15 15:28:53 by gsmith           ###   ########.fr       */
+/*   Updated: 2020/01/15 17:54:46 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+#include "utils_matrix.h"
 #include "vector.h"
 #include <math.h>
 #include <stdio.h>
-
-static void	mat4_mult(const float left[16], float right[16])
-{
-	float	tmp[16];
-	int		i;
-	int		j;
-	int		k;
-
-	ft_memcpy((void *)tmp, (const void *)right, sizeof(float) * 16);
-	i = -1;
-	while (++i < 4)
-	{
-		j = -1;
-		while (++j < 4)
-		{
-			right[i * 4 + j] = 0;
-			k = -1;
-			while (++k < 4)
-				right[i * 4 + j] += left[i * 4 + k] * tmp[k * 4 + j];
-		}
-	}
-}
 
 void		mat4_set_diagonal(float mat[16], const float coef)
 {
@@ -44,6 +23,20 @@ void		mat4_set_diagonal(float mat[16], const float coef)
 	mat[5] = coef;
 	mat[10] = coef;
 	mat[15] = coef;
+}
+
+void		mat4_perspective(float rad, float ratio, float z_range[2], \
+	float persp[16])
+{
+	float	tan_half;
+
+	ft_bzero((void *)persp, sizeof(float) * 16);
+	tan_half = tan(rad / 2);
+	persp[0] = 1 / (ratio * tan_half);
+	persp[5] = 1 / tan_half;
+	persp[10] = - (z_range[0] + z_range[1]) / (z_range[0] - z_range[1]);
+	persp[11] = - 1;
+	persp[14] = - (2 * z_range[0] * z_range[1]) / (z_range[0] - z_range[1]);
 }
 
 void		mat4_translate(float mat[16], const float vec[3])
