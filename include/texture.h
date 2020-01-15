@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/10 16:19:22 by gsmith            #+#    #+#             */
-/*   Updated: 2020/01/13 17:30:19 by gsmith           ###   ########.fr       */
+/*   Updated: 2020/01/15 15:51:57 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,6 @@ static unsigned int		get_format(const char *data, unsigned int *rd_head, \
 static unsigned int		get_int(const char *data, unsigned int *rd_head, \
 	int *value);
 static unsigned char	*get_values(const char *data, unsigned int *rd_head, \
-	unsigned int w, unsigned h);
+	unsigned int dim[2], double range);
 
 #endif

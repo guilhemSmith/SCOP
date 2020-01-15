@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/10 16:18:06 by gsmith            #+#    #+#             */
-/*   Updated: 2020/01/13 17:30:13 by gsmith           ###   ########.fr       */
+/*   Updated: 2020/01/15 15:53:25 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,12 +57,13 @@ static unsigned int		parse_ppm(const char *filepath, unsigned char **data, \
 	if (get_format(fc, &rd_head, &is_raw) || get_int(fc, &rd_head, width) \
 		|| get_int(fc, &rd_head, height) || get_int(fc, &rd_head, &range))
 		ret_val = -1;
-	else if (is_raw || range > 255 || range < 1)
+	else if (is_raw)
 	{
 		ft_putendl_fd("ERROR::TEXTURE::UNSUPPORTED_FORMAT", 2);
 		ret_val = -1;
 	}
-	else if (!(*data = get_values(fc, &rd_head, *width, *height)))
+	else if (!(*data = get_values(fc, &rd_head, \
+		(unsigned int[2]){*width, *height}, range)))
 		ret_val = -1;
 	ft_memdel((void **)&fc);
 	return (ret_val);
@@ -109,27 +110,26 @@ static unsigned int		get_int(const char *data, unsigned int *rd_head, \
 }
 
 static unsigned char	*get_values(const char *data, unsigned int *rd_head, \
-	unsigned int w, unsigned h)
+	unsigned int dim[2], double range)
 {
 	char			*word;
 	unsigned int	x;
 	unsigned int	y;
-	unsigned char	value;
 	unsigned char	*ptr;
 
-	if (!(ptr = (unsigned char *)malloc(sizeof(unsigned char) * 3 * w * h)))
+	if (!(ptr = (unsigned char *)malloc(sizeof(unsigned char) \
+				* 3 * dim[0] * dim[1])))
 	{
 		ft_putendl_fd("ERROR::TEXTURE::MALLOC_FAILED", 2);
 		return (NULL);
 	}
 	x = 0;
-	y = h - 1;
+	y = dim[1] - 1;
 	while ((word = get_word(data, rd_head)))
 	{
-		value = (unsigned char)ft_atoi(word);
+		ptr[y * dim[0] * 3 + x++] = ((double)ft_atoi(word) / range) * 255;
 		ft_memdel((void **)&word);
-		ptr[y * w * 3 + x++] = value;
-		if (x >= w * 3)
+		if (x >= dim[0] * 3)
 		{
 			x = 0;
 			y--;
