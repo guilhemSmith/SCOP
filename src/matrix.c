@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/14 16:11:03 by gsmith            #+#    #+#             */
-/*   Updated: 2020/01/16 10:36:02 by gsmith           ###   ########.fr       */
+/*   Updated: 2020/01/16 11:17:45 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,9 @@ void		mat4_perspective(float rad, float ratio, float z_range[2], \
 	tan_half = tan(rad / 2);
 	persp[0] = 1 / (ratio * tan_half);
 	persp[5] = 1 / tan_half;
-	persp[10] = - (z_range[1] + z_range[0]) / (z_range[1] - z_range[0]);
-	persp[11] = - 1;
-	persp[14] = - (2 * z_range[1] * z_range[0]) / (z_range[1] - z_range[0]);
+	persp[10] = -(z_range[1] + z_range[0]) / (z_range[1] - z_range[0]);
+	persp[11] = -1;
+	persp[14] = -(2 * z_range[1] * z_range[0]) / (z_range[1] - z_range[0]);
 }
 
 void		mat4_translate(float mat[16], const float vec[3])

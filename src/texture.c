@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/10 16:18:06 by gsmith            #+#    #+#             */
-/*   Updated: 2020/01/15 15:53:25 by gsmith           ###   ########.fr       */
+/*   Updated: 2020/01/16 11:15:52 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ static unsigned int		parse_ppm(const char *filepath, unsigned char **data, \
 	if (get_format(fc, &rd_head, &is_raw) || get_int(fc, &rd_head, width) \
 		|| get_int(fc, &rd_head, height) || get_int(fc, &rd_head, &range))
 		ret_val = -1;
-	else if (is_raw)
+	else if (is_raw || range < 1)
 	{
 		ft_putendl_fd("ERROR::TEXTURE::UNSUPPORTED_FORMAT", 2);
 		ret_val = -1;
@@ -94,18 +94,18 @@ static unsigned int		get_int(const char *data, unsigned int *rd_head, \
 	int *value)
 {
 	char	*word;
-	int		atoi;
+	int		num;
 
 	if (!(word = get_word(data, rd_head)))
 		return (-1);
-	atoi = ft_atoi(word);
+	num = ft_atoi(word);
 	ft_memdel((void **)&word);
-	if (!atoi)
+	if (!num)
 	{
 		ft_putendl_fd("ERROR::TEXTURE::HEADER::VALUE_NAN_OR_NULL", 2);
 		return (-1);
 	}
-	*value = atoi;
+	*value = num;
 	return (0);
 }
 

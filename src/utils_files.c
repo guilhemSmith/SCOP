@@ -6,15 +6,15 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/09 17:01:26 by gsmith            #+#    #+#             */
-/*   Updated: 2020/01/13 13:07:57 by gsmith           ###   ########.fr       */
+/*   Updated: 2020/01/16 11:15:27 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#define BUFF_SIZE 2048
+#define BUFF_SIZE 1048576
 
+#include "libft.h"
 #include <fcntl.h>
 #include <unistd.h>
-#include "libft.h"
 
 static unsigned int	fuse_read(unsigned int fd, char **txt, char *buf)
 {
