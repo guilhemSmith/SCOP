@@ -1,22 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   scop.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/08 13:43:48 by gsmith            #+#    #+#             */
-/*   Updated: 2020/01/16 10:39:53 by gsmith           ###   ########.fr       */
+/*   Updated: 2020/01/16 12:48:49 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "scop.h"
 #include "libft.h"
-#include "utils_main.h"
-#include "matrix.h"
-#include <math.h>
-#include "vector.h"
-#include <stdio.h>
+#include "renderer.h"
+#include "scop.h"
+#include "utils_scop.h"
 
 int					main(void)
 {
@@ -29,10 +26,10 @@ int					main(void)
 		return (-1);
 	if (load_shader(&shader_program))
 		return (close_soft(-1, NULL));
-	if (!(vao = load_object()))
+	if ((vao = load_object()) == 0)
 		return (close_soft(-1, &shader_program));
-	load_texture(&texture, "ressources/textures/honest.ppm");
-	glEnable(GL_DEPTH_TEST);
+	if (load_texture(&texture, TEXTURE_PATH_RELATIVE))
+		return (close_soft(-1, &shader_program));
 	while (!glfwWindowShouldClose(window))
 	{
 		process_input(window);
@@ -68,6 +65,7 @@ static GLFWwindow	*init_opengl(void)
 	}
 	glViewport(0, 0, WIDTH_DEF, HEIGHT_DEF);
 	glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
+	glEnable(GL_DEPTH_TEST);
 	return (window);
 }
 
@@ -93,27 +91,9 @@ static void			process_input(GLFWwindow *window)
 	}
 }
 
-static void			process_render(unsigned int shaders, unsigned int vao, unsigned int texture)
+static void			process_render(unsigned int shader, unsigned int vao, \
+	unsigned int texture)
 {
-	float			model[16];
-	float			view[16];
-	float			projection[16];
-
-	mat4_set_diagonal(model, 1);
-	mat4_rotate(model, (float)glfwGetTime(), (const float[3]){0.5, 1, 0});
-	mat4_set_diagonal(view, 1);
-	mat4_translate(view, (const float[3]){0, 0, -3});
-	mat4_perspective(45, WIDTH_DEF / HEIGHT_DEF, (float[2]){0.1, 100}, projection);
-	glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, texture);
-	glUseProgram(shaders);
-	glUniformMatrix4fv(glGetUniformLocation(shaders, "model"), 1, GL_FALSE, model);
-	glUniformMatrix4fv(glGetUniformLocation(shaders, "view"), 1, GL_FALSE, view);
-	glUniformMatrix4fv(glGetUniformLocation(shaders, "projection"), 1, GL_FALSE, projection);
-	glBindVertexArray(vao);
-	glDrawArrays(GL_TRIANGLES, 0, 36);
-	// glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
-	glBindVertexArray(0);
+	render_object((t_render_config){shader, 45, WIDTH_DEF, HEIGHT_DEF}, \
+		(t_obj_render){vao, texture, GL_TRIANGLES, 0, 36});
 }

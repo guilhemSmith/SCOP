@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/14 16:11:03 by gsmith            #+#    #+#             */
-/*   Updated: 2020/01/16 11:17:45 by gsmith           ###   ########.fr       */
+/*   Updated: 2020/01/16 12:44:41 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void		mat4_set_diagonal(float mat[16], const float coef)
 	mat[15] = coef;
 }
 
-void		mat4_perspective(float rad, float ratio, float z_range[2], \
+void		mat4_perspective(float rad, float ratio, const float z_range[2], \
 	float persp[16])
 {
 	float	tan_half;

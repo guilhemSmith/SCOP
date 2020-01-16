@@ -1,23 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   matrix.h                                           :+:      :+:    :+:   */
+/*   utils_scop.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/01/14 15:10:11 by gsmith            #+#    #+#             */
-/*   Updated: 2020/01/16 12:44:48 by gsmith           ###   ########.fr       */
+/*   Created: 2020/01/09 16:03:24 by gsmith            #+#    #+#             */
+/*   Updated: 2020/01/16 11:24:01 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MATRIX_H
-# define MATRIX_H
+#ifndef UTILS_SCOP_H
+# define UTILS_SCOP_H
 
-void		mat4_set_diagonal(float mat[16], const float coef);
-void		mat4_perspective(float rad, float ratio, const float z_range[2], \
-	float persp[16]);
-void		mat4_translate(float mat[16], const float vec[3]);
-void		mat4_rotate(float mat[16], float rad, const float vec[3]);
-void		mat4_scale(float mat[16], const float coef[3]);
+# ifndef DEP
+#  include <GL/glew.h>
+#  include <GLFW/glfw3.h>
+# endif
+
+int					close_soft(int exit_code, unsigned int *shader_program);
+void				framebuffer_size_callback(GLFWwindow *window, \
+	int width, int height);
 
 #endif

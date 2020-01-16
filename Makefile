@@ -6,7 +6,7 @@
 #    By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/01/08 13:43:45 by gsmith            #+#    #+#              #
-#    Updated: 2020/01/15 17:25:05 by gsmith           ###   ########.fr        #
+#    Updated: 2020/01/16 12:45:16 by gsmith           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -44,12 +44,13 @@ DIR_DEP = depend
 DIR_INC = include
 
 FILES_SRC = \
-	main.c \
 	matrix.c \
 	loader.c \
+	renderer.c \
+	scop.c \
 	shader.c \
 	utils_files.c \
-	utils_main.c \
+	utils_scop.c \
 	utils_matrix.c \
 	texture.c \
 	vector.c
