@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/16 11:28:06 by gsmith            #+#    #+#             */
-/*   Updated: 2020/01/16 16:21:35 by gsmith           ###   ########.fr       */
+/*   Updated: 2020/01/16 16:51:08 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,5 +41,9 @@ typedef struct	s_obj_render {
 
 void			render_object(t_render_config config, t_obj_render object, \
 	const float camera_pos[3]);
+void			shader_set_vec3(unsigned int shader, const char *field, \
+	const float vec[3]);
+void			shader_set_mat4(unsigned int shader, const char *field, \
+	const float mat[16]);
 
 #endif

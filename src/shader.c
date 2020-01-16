@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/09 14:22:21 by gsmith            #+#    #+#             */
-/*   Updated: 2020/01/14 14:38:02 by gsmith           ###   ########.fr       */
+/*   Updated: 2020/01/16 16:54:28 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,18 @@
 #include "libft.h"
 #include "utils_file.h"
 
-void				shader_set_int(unsigned int shader, const char *field, \
-	int value)
+void				shader_set_mat4(unsigned int shader, const char *field, \
+	const float mat[16])
 {
 	glUseProgram(shader);
-	glUniform1i(glGetUniformLocation(shader, field), value);
+	glUniformMatrix4fv(glGetUniformLocation(shader, field), 1, GL_FALSE, mat);
+}
+
+void				shader_set_vec3(unsigned int shader, const char *field, \
+	const float vec[3])
+{
+	glUseProgram(shader);
+	glUniform3fv(glGetUniformLocation(shader, field), 1, vec);
 }
 
 unsigned int		load_shader(unsigned int *shader_program)

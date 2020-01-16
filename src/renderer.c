@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/16 11:20:21 by gsmith            #+#    #+#             */
-/*   Updated: 2020/01/16 15:35:06 by gsmith           ###   ########.fr       */
+/*   Updated: 2020/01/16 17:56:55 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void		render_object(t_render_config config, t_obj_render object, \
 	float			projection[16];
 
 	mat4_set_diagonal(model, 1);
-	mat4_rotate(model, (float)glfwGetTime(), (const float[3]){0.5, 1, 0});
+	mat4_rotate(model, (float)glfwGetTime() / 2, (const float[3]){0.5, 1, 0});
 	camera_matrix(view, camera_pos);
 	mat4_perspective(config.fov, config.width / config.height, \
 		(const float[2]){0.1, 100}, projection);
@@ -36,13 +36,11 @@ void		render_object(t_render_config config, t_obj_render object, \
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, object.texture);
+	shader_set_vec3(config.shader, "view_pos", camera_pos);
+	shader_set_mat4(config.shader, "model", model);
+	shader_set_mat4(config.shader, "view", view);
+	shader_set_mat4(config.shader, "projection", projection);
 	glUseProgram(config.shader);
-	glUniformMatrix4fv(glGetUniformLocation(config.shader, "model"), 1, \
-		GL_FALSE, model);
-	glUniformMatrix4fv(glGetUniformLocation(config.shader, "view"), 1, \
-		GL_FALSE, view);
-	glUniformMatrix4fv(glGetUniformLocation(config.shader, "projection"), 1, \
-		GL_FALSE, projection);
 	glBindVertexArray(object.vao);
 	glDrawArrays(object.mode, object.start, object.count);
 	glBindVertexArray(0);
