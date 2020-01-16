@@ -6,7 +6,7 @@
 #    By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/01/08 13:43:45 by gsmith            #+#    #+#              #
-#    Updated: 2020/01/16 12:45:16 by gsmith           ###   ########.fr        #
+#    Updated: 2020/01/16 15:18:24 by gsmith           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -44,6 +44,7 @@ DIR_DEP = depend
 DIR_INC = include
 
 FILES_SRC = \
+	input.c \
 	matrix.c \
 	loader.c \
 	renderer.c \

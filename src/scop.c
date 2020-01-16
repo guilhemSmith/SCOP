@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/08 13:43:48 by gsmith            #+#    #+#             */
-/*   Updated: 2020/01/16 12:48:49 by gsmith           ###   ########.fr       */
+/*   Updated: 2020/01/16 16:23:47 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,31 +14,6 @@
 #include "renderer.h"
 #include "scop.h"
 #include "utils_scop.h"
-
-int					main(void)
-{
-	GLFWwindow		*window;
-	unsigned int	shader_program;
-	unsigned int	vao;
-	unsigned int	texture;
-
-	if ((window = init_opengl()) == NULL)
-		return (-1);
-	if (load_shader(&shader_program))
-		return (close_soft(-1, NULL));
-	if ((vao = load_object()) == 0)
-		return (close_soft(-1, &shader_program));
-	if (load_texture(&texture, TEXTURE_PATH_RELATIVE))
-		return (close_soft(-1, &shader_program));
-	while (!glfwWindowShouldClose(window))
-	{
-		process_input(window);
-		process_render(shader_program, vao, texture);
-		glfwSwapBuffers(window);
-		glfwPollEvents();
-	}
-	return (close_soft(0, &shader_program));
-}
 
 static GLFWwindow	*init_opengl(void)
 {
@@ -69,31 +44,42 @@ static GLFWwindow	*init_opengl(void)
 	return (window);
 }
 
-static void			process_input(GLFWwindow *window)
+static void			init_scop(t_render_config *config, t_obj_render *obj, \
+	t_timer *timer, float camera_pos[3])
 {
-	static int		wireframe = 0;
-	static int		flag = 0;
-
-	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
-		glfwSetWindowShouldClose(window, 1);
-	if (glfwGetKey(window, GLFW_KEY_COMMA) == GLFW_PRESS && flag == 0)
-	{
-		flag = 1;
-		if (!wireframe)
-			glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-		else
-			glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-		wireframe = !wireframe;
-	}
-	if (flag == 1 && glfwGetKey(window, GLFW_KEY_COMMA) != GLFW_PRESS)
-	{
-		flag = 0;
-	}
+	*config = (t_render_config){0, FOV_DEF, WIDTH_DEF, HEIGHT_DEF, 0, 0, 0, 0};
+	*obj = (t_obj_render){0, 0, GL_TRIANGLES, 0, 36};
+	*timer = (t_timer){0, 0};
+	camera_pos[0] = 0;
+	camera_pos[1] = 0;
+	camera_pos[2] = -3;
 }
 
-static void			process_render(unsigned int shader, unsigned int vao, \
-	unsigned int texture)
+int					main(void)
 {
-	render_object((t_render_config){shader, 45, WIDTH_DEF, HEIGHT_DEF}, \
-		(t_obj_render){vao, texture, GL_TRIANGLES, 0, 36});
+	GLFWwindow		*window;
+	t_render_config	config;
+	t_obj_render	obj;
+	t_timer			timer;
+	float			camera_pos[3];
+
+	init_scop(&config, &obj, &timer, camera_pos);
+	if ((window = init_opengl()) == NULL)
+		return (-1);
+	if (load_shader(&(config.shader)))
+		return (close_soft(-1, NULL));
+	if ((obj.vao = load_object()) == 0)
+		return (close_soft(-1, &(config.shader)));
+	if (load_texture(&(obj.texture), TEXTURE_PATH_RELATIVE))
+		return (close_soft(-1, &(config.shader)));
+	while (!glfwWindowShouldClose(window))
+	{
+		timer.last = timer.current;
+		timer.current = glfwGetTime();
+		process_input(window, camera_pos, &config, timer.current - timer.last);
+		render_object(config, obj, camera_pos);
+		glfwSwapBuffers(window);
+		glfwPollEvents();
+	}
+	return (close_soft(0, &(config.shader)));
 }

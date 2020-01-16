@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/08 13:44:02 by gsmith            #+#    #+#             */
-/*   Updated: 2020/01/16 11:25:56 by gsmith           ###   ########.fr       */
+/*   Updated: 2020/01/16 16:16:40 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # define GL_SILENCE_DEPRECATION
 
+# define FOV_DEF 45
 # define WIDTH_DEF 800
 # define HEIGHT_DEF 600
 # define TEXTURE_PATH_RELATIVE "ressources/textures/honest.ppm"
@@ -24,16 +25,19 @@
 #  include <GLFW/glfw3.h>
 # endif
 
+typedef struct		s_timer
+{
+	float	last;
+	float	current;
+}					t_timer;
+
 unsigned int		load_shader(unsigned int *shader_program);
 unsigned int		load_object(void);
 unsigned int		load_texture(unsigned int *texture, const char *filepath);
+void				process_input(GLFWwindow *window, float camera_pos[3], \
+	t_render_config *config, float delta_time);
 
 void				shader_set_int(unsigned int shader, const char *field, \
 	int value);
-
-static GLFWwindow	*init_opengl(void);
-static void			process_input(GLFWwindow *window);
-static void			process_render(unsigned int shader, unsigned int vao, \
-	unsigned int texture);
 
 #endif
