@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/08 13:43:48 by gsmith            #+#    #+#             */
-/*   Updated: 2020/01/15 18:01:17 by gsmith           ###   ########.fr       */
+/*   Updated: 2020/01/16 10:39:53 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,7 @@ int					main(void)
 		return (close_soft(-1, NULL));
 	if (!(vao = load_object()))
 		return (close_soft(-1, &shader_program));
-	// load_texture(&texture, "ressources/textures/toast.ppm");
-	// load_texture(&texture, "ressources/textures/honest.ppm");
-	load_texture(&texture, "ressources/textures/lies_ascii.ppm");
-	// load_texture(&texture, "ressources/textures/lies_raw.ppm");
+	load_texture(&texture, "ressources/textures/honest.ppm");
 	glEnable(GL_DEPTH_TEST);
 	while (!glfwWindowShouldClose(window))
 	{
