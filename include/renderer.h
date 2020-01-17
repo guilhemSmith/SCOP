@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/16 11:28:06 by gsmith            #+#    #+#             */
-/*   Updated: 2020/01/16 16:51:08 by gsmith           ###   ########.fr       */
+/*   Updated: 2020/01/17 11:00:55 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,14 +21,14 @@
 # endif
 
 typedef struct	s_render_config {
-	unsigned int	shader;
+	unsigned int	shader[3];
 	unsigned int	fov;
 	unsigned int	width;
 	unsigned int	height;
+	unsigned int	texture;
 	int				wireframe;
 	int				w_flag;
-	int				texture;
-	int				t_flag;
+	int				shader_flag;
 }				t_render_config;
 
 typedef struct	s_obj_render {

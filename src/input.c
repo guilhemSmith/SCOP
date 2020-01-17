@@ -6,14 +6,14 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/16 14:40:51 by gsmith            #+#    #+#             */
-/*   Updated: 2020/01/16 16:15:44 by gsmith           ###   ########.fr       */
+/*   Updated: 2020/01/17 11:02:21 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "input.h"
 #include "renderer.h"
 
-static void		state_key(GLFWwindow *window, unsigned int key, \
+static void		polymode(GLFWwindow *window, unsigned int key, \
 	int *state, int *flag)
 {
 	if (glfwGetKey(window, key) == GLFW_PRESS && *flag == 0)
@@ -29,13 +29,23 @@ static void		state_key(GLFWwindow *window, unsigned int key, \
 		*flag = 0;
 }
 
+static void		select_shader(GLFWwindow *window, t_render_config *conf)
+{
+	if (glfwGetKey(window, GLFW_KEY_1) == GLFW_PRESS && conf->shader_flag != 0)
+		conf->shader_flag = 0;
+	if (glfwGetKey(window, GLFW_KEY_2) == GLFW_PRESS && conf->shader_flag != 1)
+		conf->shader_flag = 1;
+	if (glfwGetKey(window, GLFW_KEY_3) == GLFW_PRESS && conf->shader_flag != 2)
+		conf->shader_flag = 2;
+}
+
 void			process_input(GLFWwindow *window, float camera_pos[3], \
 	t_render_config *config, float delta_time)
 {
 	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
 		glfwSetWindowShouldClose(window, 1);
-	state_key(window, GLFW_KEY_COMMA, &(config->wireframe), &(config->w_flag));
-	state_key(window, GLFW_KEY_SPACE, &(config->texture), &(config->t_flag));
+	polymode(window, GLFW_KEY_COMMA, &(config->wireframe), &(config->w_flag));
+	select_shader(window, config);
 	if (config->w_flag == 1 && glfwGetKey(window, GLFW_KEY_COMMA) != GLFW_PRESS)
 		config->w_flag = 0;
 	if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS)

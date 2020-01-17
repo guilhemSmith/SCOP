@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/08 13:43:48 by gsmith            #+#    #+#             */
-/*   Updated: 2020/01/16 18:22:01 by gsmith           ###   ########.fr       */
+/*   Updated: 2020/01/17 11:10:14 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,8 @@ static GLFWwindow	*init_opengl(void)
 static void			init_scop(t_render_config *config, t_obj_render *obj, \
 	t_timer *timer, float camera_pos[3])
 {
-	*config = (t_render_config){0, FOV_DEF, WIDTH_DEF, HEIGHT_DEF, 0, 0, 0, 0};
+	*config = (t_render_config){{0, 0, 0}, FOV_DEF, WIDTH_DEF, \
+		HEIGHT_DEF, 0, 0, 0, 0};
 	*obj = (t_obj_render){0, 0, GL_TRIANGLES, 0, 36};
 	*timer = (t_timer){0, 0};
 	camera_pos[0] = 0;
@@ -55,11 +56,25 @@ static void			init_scop(t_render_config *config, t_obj_render *obj, \
 	camera_pos[2] = -3;
 }
 
-static void			init_lighting(unsigned int shader)
+static unsigned int	init_shaders(unsigned int shader[3])
 {
-	shader_set_vec3(shader, "object_color", (const float[3]){1, 0.5, 0.31});
-	shader_set_vec3(shader, "light_color", (const float[3]){1, 1, 1});
-	shader_set_vec3(shader, "light_pos", (const float[3]){1.2, 1, 2});
+	const float		obj_color[3] = {1, 0.5, 0.31};
+	const float		light_color[3] = {1, 1, 1};
+	const float		light_pos[3] = {0, 0, 0};
+
+	if (load_shader(&(shader[0]), VERTEX_FLAT, FRAGMENT_FLAT))
+		return (-1);
+	if (load_shader(&(shader[1]), VERTEX_LIGHT, FRAGMENT_LIGHT))
+		return (-1);
+	if (load_shader(&(shader[1]), VERTEX_TEXTURE, FRAGMENT_TEXTURE))
+		return (-1);
+	shader_set_vec3(shader[0], "object_color", obj_color);
+	shader_set_vec3(shader[0], "light_color", light_color);
+	shader_set_vec3(shader[0], "light_pos", light_pos);
+	shader_set_vec3(shader[1], "object_color", obj_color);
+	shader_set_vec3(shader[1], "light_color", light_color);
+	shader_set_vec3(shader[1], "light_pos", light_pos);
+	return (0);
 }
 
 int					main(void)
@@ -73,12 +88,12 @@ int					main(void)
 	init_scop(&config, &obj, &timer, camera_pos);
 	if ((window = init_opengl()) == NULL)
 		return (-1);
-	if (load_shader(&(config.shader)))
+	if (init_shaders(config.shader))
 		return (close_soft(-1, NULL));
 	if ((obj.vao = load_object()) == 0)
-		return (close_soft(-1, &(config.shader)));
+		return (close_soft(-1, NULL));
 	if (load_texture(&(obj.texture), TEXTURE_PATH_RELATIVE))
-		return (close_soft(-1, &(config.shader)));
+		return (close_soft(-1, NULL));
 	while (!glfwWindowShouldClose(window))
 	{
 		timer.last = timer.current;
@@ -88,5 +103,5 @@ int					main(void)
 		glfwSwapBuffers(window);
 		glfwPollEvents();
 	}
-	return (close_soft(0, &(config.shader)));
+	return (close_soft(0, NULL));
 }

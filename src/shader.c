@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/09 14:22:21 by gsmith            #+#    #+#             */
-/*   Updated: 2020/01/16 16:54:28 by gsmith           ###   ########.fr       */
+/*   Updated: 2020/01/17 11:17:07 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,27 +28,31 @@ void				shader_set_vec3(unsigned int shader, const char *field, \
 	glUniform3fv(glGetUniformLocation(shader, field), 1, vec);
 }
 
-unsigned int		load_shader(unsigned int *shader_program)
+unsigned int		load_shader(unsigned int *shader_program, \
+	const char *vertex_path, const char *fragment_path)
 {
 	const char				*src;
-	unsigned int			vertex_shader;
-	unsigned int			fragment_shader;
+	unsigned int			shader_part[2];
 
-	read_file(&src, VERTEX_SHADER_FILE);
-	if (compile_shader(&vertex_shader, src, GL_VERTEX_SHADER))
-		return (-1);
-	ft_memdel((void *)&src);
-	read_file(&src, FRAGMENT_SHADER_FILE);
-	if (compile_shader(&fragment_shader, src, GL_FRAGMENT_SHADER))
+	if (read_file(&src, vertex_path) \
+		|| compile_shader(&(shader_part[0]), src, GL_VERTEX_SHADER))
 	{
-		glDeleteShader(vertex_shader);
+		ft_memdel((void *)&src);
 		return (-1);
 	}
 	ft_memdel((void *)&src);
-	if (link_shader(shader_program, vertex_shader, fragment_shader))
+	if (read_file(&src, fragment_path) \
+		|| compile_shader(&(shader_part[1]), src, GL_FRAGMENT_SHADER))
 	{
-		glDeleteShader(vertex_shader);
-		glDeleteShader(fragment_shader);
+		ft_memdel((void *)&src);
+		glDeleteShader(shader_part[0]);
+		return (-1);
+	}
+	ft_memdel((void *)&src);
+	if (link_shader(shader_program, shader_part[0], shader_part[1]))
+	{
+		glDeleteShader(shader_part[0]);
+		glDeleteShader(shader_part[0]);
 		return (-1);
 	}
 	return (0);

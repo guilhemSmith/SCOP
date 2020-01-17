@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/09 15:51:02 by gsmith            #+#    #+#             */
-/*   Updated: 2020/01/16 17:18:59 by gsmith           ###   ########.fr       */
+/*   Updated: 2020/01/17 11:11:09 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ unsigned int		load_object(void)
 {
 	unsigned int	vao;
 	unsigned int	vbo;
-	// unsigned int	ebo;
 	float vertices[] = {
 		-0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
 		0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f, 
