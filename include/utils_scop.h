@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/09 16:03:24 by gsmith            #+#    #+#             */
-/*   Updated: 2020/01/16 11:24:01 by gsmith           ###   ########.fr       */
+/*   Updated: 2020/01/17 11:35:51 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,8 @@
 #  include <GLFW/glfw3.h>
 # endif
 
-int					close_soft(int exit_code, unsigned int *shader_program);
+int					close_soft(int exit_code, t_render_config config, \
+	t_obj_render obj);
 void				framebuffer_size_callback(GLFWwindow *window, \
 	int width, int height);
 

@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/16 11:28:06 by gsmith            #+#    #+#             */
-/*   Updated: 2020/01/17 11:00:55 by gsmith           ###   ########.fr       */
+/*   Updated: 2020/01/17 12:33:20 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ typedef struct	s_render_config {
 
 typedef struct	s_obj_render {
 	unsigned int	vao;
+	unsigned int	vbo;
 	unsigned int	texture;
 	unsigned int	mode;
 	unsigned int	start;

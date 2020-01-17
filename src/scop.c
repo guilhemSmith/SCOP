@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/08 13:43:48 by gsmith            #+#    #+#             */
-/*   Updated: 2020/01/17 11:10:14 by gsmith           ###   ########.fr       */
+/*   Updated: 2020/01/17 12:33:33 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ static void			init_scop(t_render_config *config, t_obj_render *obj, \
 {
 	*config = (t_render_config){{0, 0, 0}, FOV_DEF, WIDTH_DEF, \
 		HEIGHT_DEF, 0, 0, 0, 0};
-	*obj = (t_obj_render){0, 0, GL_TRIANGLES, 0, 36};
+	*obj = (t_obj_render){0, 0, 0, GL_TRIANGLES, 0, 36};
 	*timer = (t_timer){0, 0};
 	camera_pos[0] = 0;
 	camera_pos[1] = 0;
@@ -89,11 +89,11 @@ int					main(void)
 	if ((window = init_opengl()) == NULL)
 		return (-1);
 	if (init_shaders(config.shader))
-		return (close_soft(-1, NULL));
+		return (close_soft(-1, config, obj));
 	if ((obj.vao = load_object()) == 0)
-		return (close_soft(-1, NULL));
+		return (close_soft(-1, config, obj));
 	if (load_texture(&(obj.texture), TEXTURE_PATH_RELATIVE))
-		return (close_soft(-1, NULL));
+		return (close_soft(-1, config, obj));
 	while (!glfwWindowShouldClose(window))
 	{
 		timer.last = timer.current;
@@ -103,5 +103,5 @@ int					main(void)
 		glfwSwapBuffers(window);
 		glfwPollEvents();
 	}
-	return (close_soft(0, NULL));
+	return (close_soft(0, config, obj));
 }
