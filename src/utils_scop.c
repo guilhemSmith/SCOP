@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/09 16:02:53 by gsmith            #+#    #+#             */
-/*   Updated: 2020/01/17 12:33:14 by gsmith           ###   ########.fr       */
+/*   Updated: 2020/01/17 13:42:37 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,6 @@ int					close_soft(int exit_code, t_render_config config, \
 		glDeleteProgram(config.shader[0]);
 	if (config.shader[1])
 		glDeleteProgram(config.shader[1]);
-	if (config.shader[2])
-		glDeleteProgram(config.shader[2]);
 	if (obj.texture)
 		glDeleteTextures(1, &(obj.texture));
 	if (obj.vao)

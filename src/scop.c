@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/08 13:43:48 by gsmith            #+#    #+#             */
-/*   Updated: 2020/01/17 12:33:33 by gsmith           ###   ########.fr       */
+/*   Updated: 2020/01/17 13:48:51 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ static GLFWwindow	*init_opengl(void)
 static void			init_scop(t_render_config *config, t_obj_render *obj, \
 	t_timer *timer, float camera_pos[3])
 {
-	*config = (t_render_config){{0, 0, 0}, FOV_DEF, WIDTH_DEF, \
+	*config = (t_render_config){{0, 0}, FOV_DEF, WIDTH_DEF, \
 		HEIGHT_DEF, 0, 0, 0, 0};
 	*obj = (t_obj_render){0, 0, 0, GL_TRIANGLES, 0, 36};
 	*timer = (t_timer){0, 0};
@@ -64,16 +64,11 @@ static unsigned int	init_shaders(unsigned int shader[3])
 
 	if (load_shader(&(shader[0]), VERTEX_FLAT, FRAGMENT_FLAT))
 		return (-1);
-	if (load_shader(&(shader[1]), VERTEX_LIGHT, FRAGMENT_LIGHT))
-		return (-1);
 	if (load_shader(&(shader[1]), VERTEX_TEXTURE, FRAGMENT_TEXTURE))
 		return (-1);
 	shader_set_vec3(shader[0], "object_color", obj_color);
 	shader_set_vec3(shader[0], "light_color", light_color);
 	shader_set_vec3(shader[0], "light_pos", light_pos);
-	shader_set_vec3(shader[1], "object_color", obj_color);
-	shader_set_vec3(shader[1], "light_color", light_color);
-	shader_set_vec3(shader[1], "light_pos", light_pos);
 	return (0);
 }
 

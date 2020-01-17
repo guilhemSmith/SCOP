@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/08 13:44:02 by gsmith            #+#    #+#             */
-/*   Updated: 2020/01/17 11:10:36 by gsmith           ###   ########.fr       */
+/*   Updated: 2020/01/17 13:41:26 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,6 @@
 # define TEXTURE_PATH_RELATIVE "ressources/textures/honest.ppm"
 # define VERTEX_FLAT "ressources/shaders/vertex_flat.glsl"
 # define FRAGMENT_FLAT "ressources/shaders/fragment_flat.glsl"
-# define VERTEX_LIGHT "ressources/shaders/vertex_light.glsl"
-# define FRAGMENT_LIGHT "ressources/shaders/fragment_light.glsl"
 # define VERTEX_TEXTURE "ressources/shaders/vertex_texture.glsl"
 # define FRAGMENT_TEXTURE "ressources/shaders/fragment_texture.glsl"
 

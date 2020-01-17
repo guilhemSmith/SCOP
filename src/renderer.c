@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/16 11:20:21 by gsmith            #+#    #+#             */
-/*   Updated: 2020/01/17 11:09:25 by gsmith           ###   ########.fr       */
+/*   Updated: 2020/01/17 13:47:43 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ void		render_object(t_render_config config, t_obj_render object, \
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, object.texture);
-	shader_set_vec3(config.shader[config.shader_flag], "view_pos", camera_pos);
 	shader_set_mat4(config.shader[config.shader_flag], "model", model);
 	shader_set_mat4(config.shader[config.shader_flag], "view", view);
 	shader_set_mat4(config.shader[config.shader_flag], "projection", proj);

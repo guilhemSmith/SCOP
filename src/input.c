@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/16 14:40:51 by gsmith            #+#    #+#             */
-/*   Updated: 2020/01/17 11:02:21 by gsmith           ###   ########.fr       */
+/*   Updated: 2020/01/17 13:46:37 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,6 @@ static void		select_shader(GLFWwindow *window, t_render_config *conf)
 		conf->shader_flag = 0;
 	if (glfwGetKey(window, GLFW_KEY_2) == GLFW_PRESS && conf->shader_flag != 1)
 		conf->shader_flag = 1;
-	if (glfwGetKey(window, GLFW_KEY_3) == GLFW_PRESS && conf->shader_flag != 2)
-		conf->shader_flag = 2;
 }
 
 void			process_input(GLFWwindow *window, float camera_pos[3], \

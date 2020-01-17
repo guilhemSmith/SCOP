@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/16 11:28:06 by gsmith            #+#    #+#             */
-/*   Updated: 2020/01/17 12:33:20 by gsmith           ###   ########.fr       */
+/*   Updated: 2020/01/17 13:41:17 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 # endif
 
 typedef struct	s_render_config {
-	unsigned int	shader[3];
+	unsigned int	shader[2];
 	unsigned int	fov;
 	unsigned int	width;
 	unsigned int	height;
