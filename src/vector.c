@@ -6,11 +6,11 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/14 18:16:52 by gsmith            #+#    #+#             */
-/*   Updated: 2020/01/15 14:37:13 by gsmith           ###   ########.fr       */
+/*   Updated: 2020/02/06 14:09:51 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "libft_adv.h"
 #include <math.h>
 
 void	vec3_normalize(const float vec[3], float norm[3])

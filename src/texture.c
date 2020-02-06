@@ -6,13 +6,13 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/10 16:18:06 by gsmith            #+#    #+#             */
-/*   Updated: 2020/01/16 11:15:52 by gsmith           ###   ########.fr       */
+/*   Updated: 2020/02/06 14:09:40 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "texture.h"
 #include "utils_file.h"
-#include "libft.h"
+#include "libft_adv.h"
 #include <stdlib.h>
 
 unsigned int			load_texture(unsigned int *texture, \

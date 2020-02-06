@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/08 13:44:02 by gsmith            #+#    #+#             */
-/*   Updated: 2020/01/17 13:41:26 by gsmith           ###   ########.fr       */
+/*   Updated: 2020/02/06 15:57:34 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ typedef struct		s_timer
 
 unsigned int		load_shader(unsigned int *shader_program, \
 	const char *vertex_path, const char *fragment_path);
-unsigned int		load_object(void);
+unsigned int		load_object(int argc, char *argv[]);
 unsigned int		load_texture(unsigned int *texture, const char *filepath);
 void				process_input(GLFWwindow *window, float camera_pos[3], \
 	t_render_config *config, float delta_time);

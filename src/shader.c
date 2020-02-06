@@ -6,12 +6,12 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/09 14:22:21 by gsmith            #+#    #+#             */
-/*   Updated: 2020/01/17 11:17:07 by gsmith           ###   ########.fr       */
+/*   Updated: 2020/02/06 14:10:10 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shader.h"
-#include "libft.h"
+#include "libft_adv.h"
 #include "utils_file.h"
 
 void				shader_set_mat4(unsigned int shader, const char *field, \

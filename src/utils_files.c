@@ -6,13 +6,13 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/09 17:01:26 by gsmith            #+#    #+#             */
-/*   Updated: 2020/01/16 11:15:27 by gsmith           ###   ########.fr       */
+/*   Updated: 2020/02/06 16:07:54 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#define BUFF_SIZE 1048576
+#define BUFFER_SIZE 1048576
 
-#include "libft.h"
+#include "libft_adv.h"
 #include <fcntl.h>
 #include <unistd.h>
 
@@ -21,7 +21,7 @@ static unsigned int	fuse_read(unsigned int fd, char **txt, char *buf)
 	int			read_flag;
 	char		*new_ptr;
 
-	while ((read_flag = read(fd, buf, BUFF_SIZE)) > 0)
+	while ((read_flag = read(fd, buf, BUFFER_SIZE)) > 0)
 	{
 		buf[read_flag] = 0;
 		if (!(new_ptr = ft_strjoin(*txt, buf)))
@@ -33,7 +33,7 @@ static unsigned int	fuse_read(unsigned int fd, char **txt, char *buf)
 		ft_strdel(txt);
 		*txt = new_ptr;
 	}
-	ft_bzero((void *)buf, BUFF_SIZE);
+	ft_bzero((void *)buf, BUFFER_SIZE);
 	close(fd);
 	if (read_flag < 0)
 	{
@@ -47,8 +47,8 @@ static unsigned int	fuse_read(unsigned int fd, char **txt, char *buf)
 
 unsigned int		read_file(const char **output, const char *filename)
 {
-	unsigned int	fd;
-	char			buf[BUFF_SIZE + 1];
+	int				fd;
+	char			buf[BUFFER_SIZE + 1];
 	char			*file_txt;
 
 	if ((fd = open(filename, O_RDONLY)) < 0)

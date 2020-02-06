@@ -6,7 +6,7 @@
 #    By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/01/08 13:43:45 by gsmith            #+#    #+#              #
-#    Updated: 2020/01/16 15:18:24 by gsmith           ###   ########.fr        #
+#    Updated: 2020/02/06 14:12:59 by gsmith           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,9 +28,9 @@ CFLAGS = -Wall -Werror -Wextra
 
 ## directories and files
 
-LIBFT = libft.a
-DIR_LIBFT = libft/
-FLAG_LIBFT = -L./$(DIR_LIBFT) -lft 
+LIBFT = libft_adv.a
+DIR_LIBFT = libft_adv/
+FLAG_LIBFT = -L./$(DIR_LIBFT) -lft_adv
 
 GLFW = glfw
 GLEW = glew
@@ -88,7 +88,7 @@ PREFIX = $(subst $(S_N),$(S_D),$(WHITE))[$(NAME)] - $(NC)
 
 .PHONY: all
 all:
-	@Make -C libft all
+	@Make -C libft_adv all
 	@Make $(EXTERN)
 	@Make $(NAME)
 

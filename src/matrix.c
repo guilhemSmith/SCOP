@@ -6,11 +6,11 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/14 16:11:03 by gsmith            #+#    #+#             */
-/*   Updated: 2020/01/16 12:44:41 by gsmith           ###   ########.fr       */
+/*   Updated: 2020/02/06 14:10:21 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "libft_adv.h"
 #include "utils_matrix.h"
 #include "vector.h"
 #include <math.h>

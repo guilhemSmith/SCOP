@@ -6,11 +6,11 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/15 17:03:30 by gsmith            #+#    #+#             */
-/*   Updated: 2020/01/16 11:17:22 by gsmith           ###   ########.fr       */
+/*   Updated: 2020/02/06 14:09:59 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "libft_adv.h"
 
 void	mat4_mult(const float left[16], float right[16])
 {
