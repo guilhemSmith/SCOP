@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/08 16:26:58 by gsmith            #+#    #+#             */
-/*   Updated: 2017/12/09 15:35:39 by gsmith           ###   ########.fr       */
+/*   Updated: 2018/05/11 15:40:45 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -166,7 +166,7 @@ int					ft_fact(int nb);
 
 char				*ft_itoa_b(unsigned long long nb, char *base);
 
-void				ft_iswap(char *a, char *b);
+void				ft_iswap(int *a, int *b);
 
 void				ft_cswap(char *a, char *b);
 
@@ -175,5 +175,13 @@ int					ft_itowchar(unsigned int val, char **wch);
 void				ft_perror(char *msg);
 
 int					ft_lstlen(t_list *lst);
+
+long				ft_atol(const char *str);
+
+char				**ft_strsplit_fun(char const *s, int (*isseparator)(char));
+
+int					ft_atoi_base(const char *str, const char *base);
+
+char				*ft_ltoa(long n);
 
 #endif

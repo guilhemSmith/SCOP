@@ -1,31 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strchr.c                                        :+:      :+:    :+:   */
+/*   ft_striter.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gsmith <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/11/09 11:41:42 by gsmith            #+#    #+#             */
-/*   Updated: 2017/11/12 14:16:37 by gsmith           ###   ########.fr       */
+/*   Created: 2017/11/10 16:36:42 by gsmith            #+#    #+#             */
+/*   Updated: 2018/03/28 11:46:23 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <string.h>
 
-char	*ft_strchr(const char *s, int c)
+void	ft_striter(char *s, void (*f)(char *))
 {
 	size_t	i;
-	char	casted_c;
 
-	i = 0;
-	casted_c = (char)c;
-	while (s[i])
-	{
-		if (s[i] == casted_c)
-			return ((char *)s + i);
-		i++;
-	}
-	if (s[i] == casted_c)
-		return ((char *)s + i);
-	return (NULL);
+	if (!s || !f)
+		return ;
+	i = -1;
+	while (s[++i])
+		(*f)(s + i);
 }

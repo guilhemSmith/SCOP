@@ -1,37 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_atoi.c                                          :+:      :+:    :+:   */
+/*   ft_error.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gsmith <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/11/09 14:19:22 by gsmith            #+#    #+#             */
-/*   Updated: 2017/11/14 11:55:35 by gsmith           ###   ########.fr       */
+/*   Created: 2017/11/30 11:58:35 by gsmith            #+#    #+#             */
+/*   Updated: 2017/12/02 10:55:04 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-#include <string.h>
+#include <stdlib.h>
 
-int				ft_atoi(const char *str)
+int	ft_error(int value, char *msg, void *to_free)
 {
-	size_t	i;
-	size_t	res;
-	int		sign;
-
-	res = 0;
-	sign = 1;
-	i = 0;
-	while (ft_isspace(str[i]) && str[i])
-		i++;
-	if (str[i] == '-')
-	{
-		sign = -1;
-		i++;
-	}
-	else if (str[i] == '+')
-		i++;
-	while (str[i] >= '0' && str[i] <= '9')
-		res = res * 10 + str[i++] - '0';
-	return (sign * (int)res);
+	if (to_free)
+		free(to_free);
+	ft_putendl_fd(msg, 2);
+	return (value);
 }

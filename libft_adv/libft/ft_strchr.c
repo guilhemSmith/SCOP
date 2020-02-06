@@ -1,22 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memdel.c                                        :+:      :+:    :+:   */
+/*   ft_strchr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gsmith <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/11/10 16:07:50 by gsmith            #+#    #+#             */
-/*   Updated: 2017/11/12 14:26:02 by gsmith           ###   ########.fr       */
+/*   Created: 2017/11/09 11:41:42 by gsmith            #+#    #+#             */
+/*   Updated: 2018/03/28 11:33:07 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
+#include <string.h>
 
-void	ft_memdel(void **ap)
+char	*ft_strchr(const char *s, int c)
 {
-	if (ap)
-	{
-		free(*ap);
-		*ap = NULL;
-	}
+	size_t	i;
+	char	casted_c;
+
+	i = -1;
+	casted_c = (char)c;
+	while (s[++i])
+		if (s[i] == casted_c)
+			return ((char *)s + i);
+	if (s[i] == casted_c)
+		return ((char *)s + i);
+	return (NULL);
 }

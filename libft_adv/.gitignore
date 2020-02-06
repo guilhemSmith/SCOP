@@ -1,0 +1,6 @@
+*.o
+*.a
+*.d
+main.c
+a.out
+*.dSYM

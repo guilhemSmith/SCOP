@@ -1,23 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memset.c                                        :+:      :+:    :+:   */
+/*   ft_atoi.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gsmith <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/11/09 16:04:54 by gsmith            #+#    #+#             */
-/*   Updated: 2017/11/12 14:10:33 by gsmith           ###   ########.fr       */
+/*   Created: 2017/11/09 14:19:22 by gsmith            #+#    #+#             */
+/*   Updated: 2018/03/30 12:26:47 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft.h"
 #include <string.h>
 
-void	*ft_memset(void *b, int c, size_t len)
+int				ft_atoi(const char *str)
 {
 	size_t	i;
+	size_t	res;
+	int		sign;
 
+	res = 0;
+	sign = 1;
 	i = 0;
-	while (i < len)
-		((unsigned char*)b)[i++] = (unsigned char)c;
-	return (b);
+	while (ft_isspace(str[i]) && str[i])
+		i++;
+	if (str[i] == '-' || str[i] == '+')
+		sign = (str[i++] == '-') ? -1 : 1;
+	while (str[i] >= '0' && str[i] <= '9')
+		res = res * 10 + str[i++] - '0';
+	return (sign * (int)res);
 }

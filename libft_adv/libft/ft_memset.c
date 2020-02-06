@@ -1,28 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memccpy.c                                       :+:      :+:    :+:   */
+/*   ft_memset.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gsmith <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/11/09 16:35:52 by gsmith            #+#    #+#             */
-/*   Updated: 2017/11/12 14:10:21 by gsmith           ###   ########.fr       */
+/*   Created: 2017/11/09 16:04:54 by gsmith            #+#    #+#             */
+/*   Updated: 2018/03/28 11:30:00 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <string.h>
 
-void	*ft_memccpy(void *dst, const void *src, int c, size_t n)
+void	*ft_memset(void *b, int c, size_t len)
 {
-	size_t	i;
+	size_t			i;
+	unsigned char	*b_bytes;
+	unsigned char	byte;
 
-	i = 0;
-	while (i < n)
-	{
-		((unsigned char *)dst)[i] = ((unsigned char *)src)[i];
-		if (((unsigned char *)src)[i] == (unsigned char)c)
-			return (dst + i + 1);
-		i++;
-	}
-	return (NULL);
+	b_bytes = (unsigned char *)b;
+	byte = (unsigned char)c;
+	i = -1;
+	while (++i < len)
+		b_bytes[i] = byte;
+	return (b);
 }
