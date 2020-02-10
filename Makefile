@@ -6,7 +6,7 @@
 #    By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/01/08 13:43:45 by gsmith            #+#    #+#              #
-#    Updated: 2020/02/06 14:12:59 by gsmith           ###   ########.fr        #
+#    Updated: 2020/02/10 14:32:34 by gsmith           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -51,8 +51,9 @@ FILES_SRC = \
 	scop.c \
 	shader.c \
 	utils_files.c \
-	utils_scop.c \
+	utils_loader.c \
 	utils_matrix.c \
+	utils_scop.c \
 	texture.c \
 	vector.c
 FILES_BUILD = $(FILES_SRC:.c=.o)

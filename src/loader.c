@@ -6,14 +6,16 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/09 15:51:02 by gsmith            #+#    #+#             */
-/*   Updated: 2020/02/06 16:13:18 by gsmith           ###   ########.fr       */
+/*   Updated: 2020/02/10 18:21:40 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "loader.h"
-#include "libft_adv.h"
 
-int					open_object(int argc, char *argv[])
+#include <stdlib.h>
+#include <stdio.h>
+
+static int		open_object(int argc, char *argv[])
 {
 	int		fd;
 
@@ -33,66 +35,116 @@ int					open_object(int argc, char *argv[])
 	return (fd);
 }
 
-unsigned int		load_object(int argc, char *argv[])
+static int		parse_obj(int fd, t_parsed_obj *obj)
+{
+	char	*line;
+	int		ret_val;
+
+	while ((ret_val = get_next_line(fd, &line)) > 0)
+	{
+		if (line[0] && line[0] == 'v')
+			ret_val = parse_vertice(line, obj);
+		else if (line[0] && line[0] == 'f')
+			ret_val = parse_face(line, obj);
+		ft_strdel(&line);
+		if (ret_val < 0)
+		{
+			ft_putendl_fd("ERROR::LOADER::LINE_INVALID", 2);
+			break ;
+		}
+	}
+	close(fd);
+	if (ret_val)
+	{
+		ft_lstdel(&(obj->quads), &del_vertice_face);
+		ft_lstdel(&(obj->triangles), &del_vertice_face);
+		ft_lstdel(&(obj->vertices), &del_vertice_face);
+		ft_putendl_fd("ERROR::LOADER::PARSING_FAILED", 2);
+	}
+	return (ret_val);
+}
+
+static int		buff_vertice(t_list **lst, float **vert)
+{
+	int			len;
+	int			i;
+	int			j;
+	t_list		*tmp;
+
+	i = 0;
+	len = ft_lstlen(*lst);
+	if (!((*vert) = (float *)malloc(sizeof(float) * 3 * len)))
+	{
+		ft_lstdel(lst, del_vertice_face);
+		return (-1);
+	}
+	while (*lst)
+	{
+		j = -1;
+		while (++j < 3)
+			(*vert)[i * 3 + j] = ((float *)(*lst)->content)[j];
+		tmp = (*lst)->next;
+		ft_lstdelone(lst, &del_vertice_face);
+		*lst = tmp;
+	}
+	return (0);
+}
+
+static int		buff_face(t_list **lst, int **face, int size)
+{
+	int			len;
+	int			i;
+	int			j;
+	t_list		*tmp;
+
+	i = 0;
+	len = ft_lstlen(*lst);
+	if (!((*face) = (int *)malloc(sizeof(int) * size * len)))
+	{
+		ft_lstdel(lst, del_vertice_face);
+		return (-1);
+	}
+	while (*lst)
+	{
+		j = -1;
+		while (++j < size)
+			(*face)[i * size + j] = ((int *)(*lst)->content)[j];
+		tmp = (*lst)->next;
+		ft_lstdelone(lst, &del_vertice_face);
+		*lst = tmp;
+	}
+	return (0);
+}
+
+unsigned int	load_object(int argc, char *argv[])
 {
 	int				fd;
 	unsigned int	vao;
 	unsigned int	vbo;
-	float vertices[] = {
-		-0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
-		0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f, 
-		0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f, 
-		0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f, 
-		-0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f, 
-		-0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f, 
-
-		-0.5f, -0.5f,  0.5f,  0.0f,  0.0f, 1.0f,
-		0.5f, -0.5f,  0.5f,  0.0f,  0.0f, 1.0f,
-		0.5f,  0.5f,  0.5f,  0.0f,  0.0f, 1.0f,
-		0.5f,  0.5f,  0.5f,  0.0f,  0.0f, 1.0f,
-		-0.5f,  0.5f,  0.5f,  0.0f,  0.0f, 1.0f,
-		-0.5f, -0.5f,  0.5f,  0.0f,  0.0f, 1.0f,
-
-		-0.5f,  0.5f,  0.5f, -1.0f,  0.0f,  0.0f,
-		-0.5f,  0.5f, -0.5f, -1.0f,  0.0f,  0.0f,
-		-0.5f, -0.5f, -0.5f, -1.0f,  0.0f,  0.0f,
-		-0.5f, -0.5f, -0.5f, -1.0f,  0.0f,  0.0f,
-		-0.5f, -0.5f,  0.5f, -1.0f,  0.0f,  0.0f,
-		-0.5f,  0.5f,  0.5f, -1.0f,  0.0f,  0.0f,
-
-		0.5f,  0.5f,  0.5f,  1.0f,  0.0f,  0.0f,
-		0.5f,  0.5f, -0.5f,  1.0f,  0.0f,  0.0f,
-		0.5f, -0.5f, -0.5f,  1.0f,  0.0f,  0.0f,
-		0.5f, -0.5f, -0.5f,  1.0f,  0.0f,  0.0f,
-		0.5f, -0.5f,  0.5f,  1.0f,  0.0f,  0.0f,
-		0.5f,  0.5f,  0.5f,  1.0f,  0.0f,  0.0f,
-
-		-0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,
-		0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,
-		0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,
-		0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,
-		-0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,
-		-0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,
-
-		-0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,
-		0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,
-		0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,
-		0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,
-		-0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,
-		-0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f
-	};
+	int				err_val;
+	t_parsed_obj	parsed_data;
+	t_buffer_obj	buffer_data;
 
 	if ((fd = open_object(argc, argv)) < 0)
 		return (0);
-	close(fd);
+	ft_bzero((void *)&parsed_data, sizeof(t_parsed_obj));
+	if (parse_obj(fd, &parsed_data))
+		return (0);
+	ft_bzero((void *)&buffer_data, sizeof(t_buffer_obj));
+	err_val = buff_vertice(&(parsed_data.vertices), &(buffer_data.vertices));
+	err_val = buff_face(&(parsed_data.triangles), &(buffer_data.triangles), 3);
+	err_val = buff_face(&(parsed_data.quads), &(buffer_data.quads), 4);
 	glGenVertexArrays(1, &vao);
 	glGenBuffers(1, &vbo);
-	glBindVertexArray(vao);
-	glBindBuffer(GL_ARRAY_BUFFER, vbo);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
-	glEnableVertexAttribArray(0);
-	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
-    glEnableVertexAttribArray(1);
+	// glBindVertexArray(vao);
+	// glBindBuffer(GL_ARRAY_BUFFER, vbo);
+	// glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+	// glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
+	// glEnableVertexAttribArray(0);
+	// glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
+	// glEnableVertexAttribArray(1);
+	ft_memdel((void **)&(buffer_data.vertices));
+	ft_memdel((void **)&(buffer_data.triangles));
+	ft_memdel((void **)&(buffer_data.quads));
 	return (vao);
 }
