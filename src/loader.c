@@ -6,14 +6,13 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/09 15:51:02 by gsmith            #+#    #+#             */
-/*   Updated: 2020/02/10 18:21:40 by gsmith           ###   ########.fr       */
+/*   Updated: 2020/02/19 13:36:07 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "loader.h"
 
 #include <stdlib.h>
-#include <stdio.h>
 
 static int		open_object(int argc, char *argv[])
 {
@@ -86,6 +85,7 @@ static int		buff_vertice(t_list **lst, float **vert)
 		tmp = (*lst)->next;
 		ft_lstdelone(lst, &del_vertice_face);
 		*lst = tmp;
+		i++;
 	}
 	return (0);
 }
@@ -108,10 +108,11 @@ static int		buff_face(t_list **lst, int **face, int size)
 	{
 		j = -1;
 		while (++j < size)
-			(*face)[i * size + j] = ((int *)(*lst)->content)[j];
+			(*face)[i * size + j] = ((int *)(*lst)->content)[j] - 1;
 		tmp = (*lst)->next;
 		ft_lstdelone(lst, &del_vertice_face);
 		*lst = tmp;
+		i++;
 	}
 	return (0);
 }
@@ -121,6 +122,7 @@ unsigned int	load_object(int argc, char *argv[])
 	int				fd;
 	unsigned int	vao;
 	unsigned int	vbo;
+	unsigned int	ebo[2];
 	int				err_val;
 	t_parsed_obj	parsed_data;
 	t_buffer_obj	buffer_data;
@@ -131,18 +133,30 @@ unsigned int	load_object(int argc, char *argv[])
 	if (parse_obj(fd, &parsed_data))
 		return (0);
 	ft_bzero((void *)&buffer_data, sizeof(t_buffer_obj));
+	buffer_data.nb_vertices = ft_lstlen(parsed_data.vertices) * 3;
 	err_val = buff_vertice(&(parsed_data.vertices), &(buffer_data.vertices));
+	buffer_data.nb_triangles = ft_lstlen(parsed_data.triangles) * 3;
 	err_val = buff_face(&(parsed_data.triangles), &(buffer_data.triangles), 3);
+	buffer_data.nb_quads = ft_lstlen(parsed_data.quads) * 4;
 	err_val = buff_face(&(parsed_data.quads), &(buffer_data.quads), 4);
 	glGenVertexArrays(1, &vao);
 	glGenBuffers(1, &vbo);
-	// glBindVertexArray(vao);
-	// glBindBuffer(GL_ARRAY_BUFFER, vbo);
-	// glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-	// glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
-	// glEnableVertexAttribArray(0);
-	// glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
-	// glEnableVertexAttribArray(1);
+	glGenBuffers(2, ebo);
+	glBindVertexArray(vao);
+	glBindBuffer(GL_ARRAY_BUFFER, vbo);
+	glBufferData(GL_ARRAY_BUFFER, buffer_data.nb_vertices * sizeof(float), buffer_data.vertices, GL_STATIC_DRAW);
+	if (buffer_data.nb_triangles > 0)
+	{
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo[0]);
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, buffer_data.nb_triangles * sizeof(int), buffer_data.triangles, GL_STATIC_DRAW);
+	}
+	if (buffer_data.nb_quads > 0)
+	{
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo[1]);
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, buffer_data.nb_quads * sizeof(int), buffer_data.quads, GL_STATIC_DRAW);
+	}
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+	glEnableVertexAttribArray(0);
 	ft_memdel((void **)&(buffer_data.vertices));
 	ft_memdel((void **)&(buffer_data.triangles));
 	ft_memdel((void **)&(buffer_data.quads));

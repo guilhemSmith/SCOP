@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/08 13:43:48 by gsmith            #+#    #+#             */
-/*   Updated: 2020/02/06 15:57:35 by gsmith           ###   ########.fr       */
+/*   Updated: 2020/02/19 13:37:35 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,22 +53,18 @@ static void			init_scop(t_render_config *config, t_obj_render *obj, \
 	*timer = (t_timer){0, 0};
 	camera_pos[0] = 0;
 	camera_pos[1] = 0;
-	camera_pos[2] = -3;
+	camera_pos[2] = -20;
 }
 
 static unsigned int	init_shaders(unsigned int shader[3])
 {
 	const float		obj_color[3] = {1, 0.5, 0.31};
-	const float		light_color[3] = {1, 1, 1};
-	const float		light_pos[3] = {0, 0, 0};
 
 	if (load_shader(&(shader[0]), VERTEX_FLAT, FRAGMENT_FLAT))
 		return (-1);
 	if (load_shader(&(shader[1]), VERTEX_TEXTURE, FRAGMENT_TEXTURE))
 		return (-1);
 	shader_set_vec3(shader[0], "object_color", obj_color);
-	shader_set_vec3(shader[0], "light_color", light_color);
-	shader_set_vec3(shader[0], "light_pos", light_pos);
 	return (0);
 }
 
