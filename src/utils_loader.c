@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/10 14:32:12 by gsmith            #+#    #+#             */
-/*   Updated: 2020/02/10 18:06:00 by gsmith           ###   ########.fr       */
+/*   Updated: 2020/02/19 18:20:06 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,29 +42,16 @@ int			parse_vertice(char *vertice, t_parsed_obj *obj)
 	return (0);
 }
 
-static int	add_triangle(int *val, t_parsed_obj *obj)
+static int	add_face(int *val, t_list **dest, int size)
 {
 	t_list	*new_face;
 
-	if (!(new_face = ft_lstnew(val, sizeof(int) * 3)))
+	if (!(new_face = ft_lstnew(val, sizeof(int) * size)))
 		return (-1);
-	if (obj->triangles != 0)
-		ft_lstaddend(&(obj->triangles), new_face);
+	if (*dest != 0)
+		ft_lstaddend(dest, new_face);
 	else
-		obj->triangles = new_face;
-	return (0);
-}
-
-static int	add_quad(int *val, t_parsed_obj *obj)
-{
-	t_list	*new_face;
-
-	if (!(new_face = ft_lstnew(val, sizeof(int) * 4)))
-		return (-1);
-	if (obj->quads != 0)
-		ft_lstaddend(&(obj->quads), new_face);
-	else
-		obj->quads = new_face;
+		*dest = new_face;
 	return (0);
 }
 
@@ -89,9 +76,9 @@ int			parse_face(char *face, t_parsed_obj *obj)
 	ft_memdel((void *)&(words[0]));
 	ft_memdel((void *)&words);
 	if (i == 3)
-		i = add_triangle(val, obj);
+		i = add_face(val, &(obj->triangles), 3);
 	else if (i == 4)
-		i = add_quad(val, obj);
+		i = add_face(val, &(obj->quads), 4);
 	else
 		return (-1);
 	return (i);
@@ -101,4 +88,24 @@ void		del_vertice_face(void *content, size_t size)
 {
 	ft_bzero((void *)content, size);
 	ft_memdel(&content);
+}
+
+void		buffer_quad(t_parsed_obj *parsed, t_buffer_obj *buf, int i)
+{
+	int			j;
+	t_list		*tmp;
+
+	j = 0;
+	tmp = parsed->quads;
+	while (tmp)
+	{
+		buf->indices[i * 3 + j * 6] = ((int *)tmp->content)[0] - 1;
+		buf->indices[i * 3 + j * 6 + 1] = ((int *)tmp->content)[1] - 1;
+		buf->indices[i * 3 + j * 6 + 2] = ((int *)tmp->content)[2] - 1;
+		buf->indices[i * 3 + j * 6 + 3] = ((int *)tmp->content)[2] - 1;
+		buf->indices[i * 3 + j * 6 + 4] = ((int *)tmp->content)[3] - 1;
+		buf->indices[i * 3 + j * 6 + 5] = ((int *)tmp->content)[0] - 1;
+		tmp = tmp->next;
+		j++;
+	}
 }

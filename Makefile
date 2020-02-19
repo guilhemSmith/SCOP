@@ -6,7 +6,7 @@
 #    By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/01/08 13:43:45 by gsmith            #+#    #+#              #
-#    Updated: 2020/02/10 14:32:34 by gsmith           ###   ########.fr        #
+#    Updated: 2020/02/19 18:16:29 by gsmith           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,7 +23,7 @@ UNAME = $(shell uname)
 NAME = scop
 
 CC = clang
-DEBUG = -g
+DEBUG = -g3
 CFLAGS = -Wall -Werror -Wextra
 
 ## directories and files
@@ -52,6 +52,7 @@ FILES_SRC = \
 	shader.c \
 	utils_files.c \
 	utils_loader.c \
+	utils_loader_gl.c \
 	utils_matrix.c \
 	utils_scop.c \
 	texture.c \

@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/16 11:20:21 by gsmith            #+#    #+#             */
-/*   Updated: 2020/02/19 13:38:49 by gsmith           ###   ########.fr       */
+/*   Updated: 2020/02/19 13:41:24 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,6 @@ void		render_object(t_render_config config, t_obj_render object, \
 	shader_set_mat4(config.shader[config.shader_flag], "projection", proj);
 	glUseProgram(config.shader[config.shader_flag]);
 	glBindVertexArray(object.vao);
-	glDrawElements(object.mode, 1000, GL_UNSIGNED_INT, 0);
+	glDrawElements(object.mode, 30000, GL_UNSIGNED_INT, 0);
 	glBindVertexArray(0);
 }

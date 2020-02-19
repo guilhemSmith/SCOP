@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/09 15:51:22 by gsmith            #+#    #+#             */
-/*   Updated: 2020/02/19 09:31:40 by gsmith           ###   ########.fr       */
+/*   Updated: 2020/02/19 18:21:39 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # include <fcntl.h>
 # include <unistd.h>
 # include "libft_adv.h"
+# include "renderer.h"
 
 typedef struct		s_parsed_obj
 {
@@ -31,15 +32,16 @@ typedef struct		s_parsed_obj
 typedef struct		s_buffer_obj
 {
 	float		*vertices;
-	int			nb_vertices;
-	int			*triangles;
-	int			nb_triangles;
-	int			*quads;
-	int			nb_quads;
+	int			nb_vert;
+	int			*indices;
+	int			nb_indices;
 }					t_buffer_obj;
+
+void				gl_load(t_obj_render *obj, t_buffer_obj *buffer);
 
 int					parse_vertice(char *vertice, t_parsed_obj *obj);
 int					parse_face(char *face, t_parsed_obj *obj);
 void				del_vertice_face(void *content, size_t size);
+void				buffer_quad(t_parsed_obj *parsed, t_buffer_obj *buf, int i);
 
 #endif
