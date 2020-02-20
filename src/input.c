@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/16 14:40:51 by gsmith            #+#    #+#             */
-/*   Updated: 2020/01/17 13:46:37 by gsmith           ###   ########.fr       */
+/*   Updated: 2020/02/20 14:58:14 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,12 +29,19 @@ static void		polymode(GLFWwindow *window, unsigned int key, \
 		*flag = 0;
 }
 
-static void		select_shader(GLFWwindow *window, t_render_config *conf)
+static void		update_shader(GLFWwindow *window, t_render_config *conf)
 {
-	if (glfwGetKey(window, GLFW_KEY_1) == GLFW_PRESS && conf->shader_flag != 0)
-		conf->shader_flag = 0;
-	if (glfwGetKey(window, GLFW_KEY_2) == GLFW_PRESS && conf->shader_flag != 1)
-		conf->shader_flag = 1;
+	if (glfwGetKey(window, GLFW_KEY_T) == GLFW_PRESS && conf->alpha_flag == 0)
+	{
+		conf->alpha_flag = 1;
+		conf->target_alpha = (int)(conf->target_alpha + 1) % 2;
+	}
+	else if (conf->alpha_flag && glfwGetKey(window, GLFW_KEY_T) != GLFW_PRESS)
+		conf->alpha_flag = 0;
+	if (conf->target_alpha > conf->current_alpha)
+		conf->current_alpha += TRANS_SPEED;
+	else if (conf->target_alpha < conf->current_alpha)
+		conf->current_alpha -= TRANS_SPEED;
 }
 
 void			process_input(GLFWwindow *window, float camera_pos[3], \
@@ -43,19 +50,19 @@ void			process_input(GLFWwindow *window, float camera_pos[3], \
 	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
 		glfwSetWindowShouldClose(window, 1);
 	polymode(window, GLFW_KEY_COMMA, &(config->wireframe), &(config->w_flag));
-	select_shader(window, config);
+	update_shader(window, config);
 	if (config->w_flag == 1 && glfwGetKey(window, GLFW_KEY_COMMA) != GLFW_PRESS)
 		config->w_flag = 0;
 	if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS)
-		camera_pos[0] -= 2.5 * delta_time;
+		camera_pos[0] -= MOVE_SPEED * delta_time;
 	if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS)
-		camera_pos[0] += 2.5 * delta_time;
+		camera_pos[0] += MOVE_SPEED * delta_time;
 	if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS)
-		camera_pos[1] += 2.5 * delta_time;
+		camera_pos[1] += MOVE_SPEED * delta_time;
 	if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS)
-		camera_pos[1] -= 2.5 * delta_time;
+		camera_pos[1] -= MOVE_SPEED * delta_time;
 	if (glfwGetKey(window, GLFW_KEY_RIGHT_SHIFT) == GLFW_PRESS)
-		camera_pos[2] += 2.5 * delta_time;
+		camera_pos[2] += MOVE_SPEED * delta_time;
 	if (glfwGetKey(window, GLFW_KEY_RIGHT_CONTROL) == GLFW_PRESS)
-		camera_pos[2] -= 2.5 * delta_time;
+		camera_pos[2] -= MOVE_SPEED * delta_time;
 }

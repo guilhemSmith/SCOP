@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/08 13:44:02 by gsmith            #+#    #+#             */
-/*   Updated: 2020/02/19 17:32:59 by gsmith           ###   ########.fr       */
+/*   Updated: 2020/02/20 14:38:22 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,9 @@
 # define FOV_DEF 45
 # define WIDTH_DEF 800
 # define HEIGHT_DEF 600
-# define TEXTURE_PATH_RELATIVE "ressources/textures/honest.ppm"
-# define VERTEX_FLAT "ressources/shaders/vertex_flat.glsl"
-# define FRAGMENT_FLAT "ressources/shaders/fragment_flat.glsl"
-# define VERTEX_TEXTURE "ressources/shaders/vertex_texture.glsl"
-# define FRAGMENT_TEXTURE "ressources/shaders/fragment_texture.glsl"
+# define TEXTURE_PATH_RELATIVE "ressources/textures/cat.ppm"
+# define VERTEX_ULTIMATE "ressources/shaders/vertex_ultimate.glsl"
+# define FRAGMENT_ULTIMATE "ressources/shaders/fragment_ultimate.glsl"
 
 # ifndef DEP
 #  include <GL/glew.h>

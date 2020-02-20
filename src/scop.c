@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/08 13:43:48 by gsmith            #+#    #+#             */
-/*   Updated: 2020/02/20 11:18:31 by gsmith           ###   ########.fr       */
+/*   Updated: 2020/02/20 14:54:00 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,8 @@ static GLFWwindow	*init_opengl(void)
 static void			init_scop(t_render_config *config, t_obj_render *obj, \
 	t_timer *timer, float camera_pos[3])
 {
-	*config = (t_render_config){{0, 0}, FOV_DEF, WIDTH_DEF, \
-		HEIGHT_DEF, 0, 0, 0, 0};
+	*config = (t_render_config){0, FOV_DEF, WIDTH_DEF, \
+		HEIGHT_DEF, 0, 0, 0, 0, 0, 0};
 	*obj = (t_obj_render){0, 0, 0, 0, 0, GL_TRIANGLES, 0, 36};
 	*timer = (t_timer){0, 0};
 	camera_pos[0] = 0;
@@ -56,15 +56,10 @@ static void			init_scop(t_render_config *config, t_obj_render *obj, \
 	camera_pos[2] = -10;
 }
 
-static unsigned int	init_shaders(unsigned int shader[3])
+static unsigned int	init_shaders(unsigned int *shader)
 {
-	const float		obj_color[3] = {1, 0.5, 0.31};
-
-	if (load_shader(&(shader[0]), VERTEX_FLAT, FRAGMENT_FLAT))
+	if (load_shader(shader, VERTEX_ULTIMATE, FRAGMENT_ULTIMATE))
 		return (-1);
-	if (load_shader(&(shader[1]), VERTEX_TEXTURE, FRAGMENT_TEXTURE))
-		return (-1);
-	shader_set_vec3(shader[0], "object_color", obj_color);
 	return (0);
 }
 
@@ -79,7 +74,7 @@ int					main(int argc, char *argv[])
 	init_scop(&config, &obj, &timer, camera_pos);
 	if ((window = init_opengl()) == NULL)
 		return (-1);
-	if (init_shaders(config.shader))
+	if (init_shaders(&config.shader))
 		return (close_soft(-1, config, obj));
 	if (load_object(&obj, argc, argv) != 0)
 		return (close_soft(-1, config, obj));

@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/16 14:16:05 by gsmith            #+#    #+#             */
-/*   Updated: 2020/01/16 15:13:52 by gsmith           ###   ########.fr       */
+/*   Updated: 2020/02/20 14:58:01 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,5 +17,8 @@
 #  include <GL/glew.h>
 #  include <GLFW/glfw3.h>
 # endif
+
+# define TRANS_SPEED 0.025
+# define MOVE_SPEED 2.5
 
 #endif

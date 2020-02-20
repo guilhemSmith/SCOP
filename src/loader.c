@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/09 15:51:02 by gsmith            #+#    #+#             */
-/*   Updated: 2020/02/20 12:47:24 by gsmith           ###   ########.fr       */
+/*   Updated: 2020/02/20 13:48:14 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ static int		buff_vertice(t_list **lst, t_buffer_obj *buf)
 	int			j;
 	t_list		*tmp;
 
-	buf->nb_vert = ft_lstlen(*lst) * 3;
+	buf->nb_vert = ft_lstlen(*lst) * 5;
 	i = 0;
 	if (!(buf->vertices = (float *)ft_memalloc(sizeof(float) * buf->nb_vert)))
 	{
@@ -78,7 +78,7 @@ static int		buff_vertice(t_list **lst, t_buffer_obj *buf)
 	{
 		j = -1;
 		while (++j < 3)
-			buf->vertices[i * 3 + j] = ((float *)(*lst)->content)[j];
+			buf->vertices[i * 5 + j] = ((float *)(*lst)->content)[j];
 		tmp = (*lst)->next;
 		ft_lstdelone(lst, &del_vertice_face);
 		*lst = tmp;

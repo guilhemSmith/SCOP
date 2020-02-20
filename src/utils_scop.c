@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/09 16:02:53 by gsmith            #+#    #+#             */
-/*   Updated: 2020/01/17 13:42:37 by gsmith           ###   ########.fr       */
+/*   Updated: 2020/02/20 14:40:53 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,8 @@ void				framebuffer_size_callback(GLFWwindow *window, \
 int					close_soft(int exit_code, t_render_config config, \
 	t_obj_render obj)
 {
-	if (config.shader[0])
-		glDeleteProgram(config.shader[0]);
-	if (config.shader[1])
-		glDeleteProgram(config.shader[1]);
+	if (config.shader)
+		glDeleteProgram(config.shader);
 	if (obj.texture)
 		glDeleteTextures(1, &(obj.texture));
 	if (obj.vao)

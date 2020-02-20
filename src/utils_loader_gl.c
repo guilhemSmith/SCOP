@@ -6,11 +6,20 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/19 18:04:54 by gsmith            #+#    #+#             */
-/*   Updated: 2020/02/20 13:11:05 by gsmith           ###   ########.fr       */
+/*   Updated: 2020/02/20 15:11:00 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "loader.h"
+
+static void	update_vertices(float *vert_ptr, float max[3], float min[3])
+{
+	vert_ptr[0] -= min[0] + (max[0] - min[0]) / 2;
+	vert_ptr[1] -= min[1] + (max[1] - min[1]) / 2;
+	vert_ptr[2] -= min[2] + (max[2] - min[2]) / 2;
+	vert_ptr[3] = (vert_ptr[2] - min[2]) / (max[2] - min[2]);
+	vert_ptr[4] = (vert_ptr[1] - min[1]) / (max[1] - min[1]);
+}
 
 void		repos_model(t_buffer_obj *buffer)
 {
@@ -22,24 +31,19 @@ void		repos_model(t_buffer_obj *buffer)
 	ft_bzero((void *)max, sizeof(int) * 3);
 	ft_bzero((void *)min, sizeof(int) * 3);
 	i = -1;
-	while (++i < buffer->nb_vert / 3)
+	while (++i < buffer->nb_vert / 5)
 	{
 		j = -1;
 		while (++j < 3)
 		{
-			if (buffer->vertices[i * 3 + j] > max[j])
-				max[j] = buffer->vertices[i * 3 + j];
-			else if (buffer->vertices[i * 3 + j] < min[j])
-				min[j] = buffer->vertices[i * 3 + j];
+			if (buffer->vertices[i * 5 + j] > max[j])
+				max[j] = buffer->vertices[i * 5 + j];
+			else if (buffer->vertices[i * 5 + j] < min[j])
+				min[j] = buffer->vertices[i * 5 + j];
 		}
 	}
-	i = -1;
-	while (++i < buffer->nb_vert / 3)
-	{
-		buffer->vertices[i * 3] -= min[0] + (max[0] - min[0]) / 2;
-		buffer->vertices[i * 3 + 1] -= min[1] + (max[1] - min[1]) / 2;
-		buffer->vertices[i * 3 + 2] -= min[2] + (max[2] - min[2]) / 2;
-	}
+	while (--i >= 0)
+		update_vertices(buffer->vertices + i * 5, max, min);
 }
 
 void		gl_load(t_obj_render *obj, t_buffer_obj *buffer)
@@ -57,7 +61,10 @@ void		gl_load(t_obj_render *obj, t_buffer_obj *buffer)
 		glBufferData(GL_ELEMENT_ARRAY_BUFFER, \
 			buffer->nb_indices * sizeof(int), buffer->indices, GL_STATIC_DRAW);
 	}
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), \
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), \
 		(void*)0);
 	glEnableVertexAttribArray(0);
+	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), \
+		(void*)(3 * sizeof(float)));
+	glEnableVertexAttribArray(1);
 }
