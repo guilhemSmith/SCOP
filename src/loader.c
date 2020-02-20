@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/09 15:51:02 by gsmith            #+#    #+#             */
-/*   Updated: 2020/02/20 13:48:14 by gsmith           ###   ########.fr       */
+/*   Updated: 2020/02/20 15:48:21 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,10 +124,10 @@ unsigned int	load_object(t_obj_render *obj, int argc, char *argv[])
 	t_buffer_obj	buffer_data;
 
 	if ((fd = open_object(argc, argv)) < 0)
-		return (0);
+		return (-1);
 	ft_bzero((void *)&parsed_data, sizeof(t_parsed_obj));
 	if (parse_obj(fd, &parsed_data))
-		return (0);
+		return (-1);
 	ft_bzero((void *)&buffer_data, sizeof(t_buffer_obj));
 	err_val = buff_vertice(&(parsed_data.vertices), &buffer_data);
 	err_val = buff_triangles(&parsed_data, &buffer_data);

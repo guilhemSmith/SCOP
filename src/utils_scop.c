@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/09 16:02:53 by gsmith            #+#    #+#             */
-/*   Updated: 2020/02/20 14:40:53 by gsmith           ###   ########.fr       */
+/*   Updated: 2020/02/20 15:44:58 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,8 @@ int					close_soft(int exit_code, t_render_config config, \
 	if (obj.vao)
 		glDeleteVertexArrays(1, &(obj.vao));
 	if (obj.vbo)
+		glDeleteBuffers(1, &(obj.vbo));
+	if (obj.ebo)
 		glDeleteBuffers(1, &(obj.vbo));
 	glfwTerminate();
 	return (exit_code);
