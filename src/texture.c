@@ -117,7 +117,7 @@ static unsigned char	*get_values(const char *data, unsigned int *rd_head, \
 	unsigned int	y;
 	unsigned char	*ptr;
 
-	if (!(ptr = (unsigned char *)malloc(sizeof(unsigned char) \
+	if (!(ptr = (unsigned char *)ft_memalloc(sizeof(unsigned char) \
 				* 3 * dim[0] * dim[1])))
 	{
 		ft_putendl_fd("ERROR::TEXTURE::MALLOC_FAILED", 2);

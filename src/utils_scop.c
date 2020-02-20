@@ -36,7 +36,7 @@ int					close_soft(int exit_code, t_render_config config, \
 	if (obj.vbo)
 		glDeleteBuffers(1, &(obj.vbo));
 	if (obj.ebo)
-		glDeleteBuffers(1, &(obj.vbo));
+		glDeleteBuffers(1, &(obj.ebo));
 	glfwTerminate();
 	return (exit_code);
 }
