@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/16 14:40:51 by gsmith            #+#    #+#             */
-/*   Updated: 2020/02/20 14:58:14 by gsmith           ###   ########.fr       */
+/*   Updated: 2020/02/20 15:32:55 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,9 +39,17 @@ static void		update_shader(GLFWwindow *window, t_render_config *conf)
 	else if (conf->alpha_flag && glfwGetKey(window, GLFW_KEY_T) != GLFW_PRESS)
 		conf->alpha_flag = 0;
 	if (conf->target_alpha > conf->current_alpha)
+	{
 		conf->current_alpha += TRANS_SPEED;
+		if (conf->target_alpha < conf->current_alpha)
+			conf->current_alpha = conf->target_alpha;
+	}
 	else if (conf->target_alpha < conf->current_alpha)
+	{
 		conf->current_alpha -= TRANS_SPEED;
+		if (conf->target_alpha > conf->current_alpha)
+			conf->current_alpha = conf->target_alpha;
+	}
 }
 
 void			process_input(GLFWwindow *window, float camera_pos[3], \

@@ -17,8 +17,8 @@ void main()
 	gl_Position = projection * view * model * vec4(a_pos, 1.0);
 
     float r, g, b;
-    r = (int(a_pos.x * 500) % 255) / 255.0f;
-    g = (int(a_pos.y * 500) % 255) / 255.0f;
-    b = (int(a_pos.z * 500) % 255) / 255.0f;
+    r = 1 - t_pos.x - t_pos.y;
+    g = t_pos.x;
+    b = t_pos.y;
     frag_col = vec3(r, g, b);
 }
