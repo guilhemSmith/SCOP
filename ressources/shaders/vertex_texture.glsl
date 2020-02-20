@@ -11,6 +11,6 @@ uniform mat4 projection;
 void main()
 {
 	frag_pos = vec3(view * model * vec4(a_pos, 1.0));
-	text_pos = vec2(a_pos);
+	text_pos = vec2(a_pos.x, a_pos.y);
 	gl_Position = projection * view * model * vec4(a_pos, 1.0);
 }

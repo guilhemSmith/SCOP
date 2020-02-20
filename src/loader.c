@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/09 15:51:02 by gsmith            #+#    #+#             */
-/*   Updated: 2020/02/20 11:18:24 by gsmith           ###   ########.fr       */
+/*   Updated: 2020/02/20 12:47:24 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,6 +132,7 @@ unsigned int	load_object(t_obj_render *obj, int argc, char *argv[])
 	err_val = buff_vertice(&(parsed_data.vertices), &buffer_data);
 	err_val = buff_triangles(&parsed_data, &buffer_data);
 	obj->nb_elem = buffer_data.nb_indices * 6;
+	repos_model(&buffer_data);
 	gl_load(obj, &buffer_data);
 	ft_memdel((void **)&(buffer_data.vertices));
 	ft_memdel((void **)&(buffer_data.indices));
