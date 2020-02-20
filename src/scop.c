@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/08 13:43:48 by gsmith            #+#    #+#             */
-/*   Updated: 2020/02/19 17:32:55 by gsmith           ###   ########.fr       */
+/*   Updated: 2020/02/20 11:18:31 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ int					main(int argc, char *argv[])
 		timer.last = timer.current;
 		timer.current = glfwGetTime();
 		process_input(window, camera_pos, &config, timer.current - timer.last);
-		render_object(config, obj, camera_pos);
+		render_object(&config, &obj, camera_pos);
 		glfwSwapBuffers(window);
 		glfwPollEvents();
 	}

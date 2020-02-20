@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/19 18:04:54 by gsmith            #+#    #+#             */
-/*   Updated: 2020/02/19 18:16:41 by gsmith           ###   ########.fr       */
+/*   Updated: 2020/02/20 11:17:33 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void		gl_load(t_obj_render *obj, t_buffer_obj *buffer)
 {
 	glGenVertexArrays(1, &(obj->vao));
 	glGenBuffers(1, &(obj->vbo));
-	glGenBuffers(2, &(obj->ebo));
+	glGenBuffers(1, &(obj->ebo));
 	glBindVertexArray(obj->vao);
 	glBindBuffer(GL_ARRAY_BUFFER, obj->vbo);
 	glBufferData(GL_ARRAY_BUFFER, buffer->nb_vert * sizeof(float), \
