@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/08 13:43:48 by gsmith            #+#    #+#             */
-/*   Updated: 2020/02/20 14:54:00 by gsmith           ###   ########.fr       */
+/*   Updated: 2020/02/21 16:00:51 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ int					main(int argc, char *argv[])
 		return (-1);
 	if (init_shaders(&config.shader))
 		return (close_soft(-1, config, obj));
-	if (load_object(&obj, argc, argv) != 0)
+	if (load_object(&obj, camera_pos + 2, argc, argv) != 0)
 		return (close_soft(-1, config, obj));
 	if (load_texture(&(obj.texture), TEXTURE_PATH_RELATIVE))
 		return (close_soft(-1, config, obj));

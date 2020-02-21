@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/09 15:51:22 by gsmith            #+#    #+#             */
-/*   Updated: 2020/02/20 12:50:10 by gsmith           ###   ########.fr       */
+/*   Updated: 2020/02/21 14:33:41 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,8 @@ typedef struct		s_buffer_obj
 	int			nb_indices;
 }					t_buffer_obj;
 
-void				repos_model(t_buffer_obj *buffer);
+int					allocate_buffer(int len, unsigned int size, void **ptr);
+void				repos_model(t_buffer_obj *buffer, float *cam_z);
 void				gl_load(t_obj_render *obj, t_buffer_obj *buffer);
 
 int					parse_vertice(char *vertice, t_parsed_obj *obj);

@@ -6,11 +6,26 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/19 18:04:54 by gsmith            #+#    #+#             */
-/*   Updated: 2020/02/20 15:11:00 by gsmith           ###   ########.fr       */
+/*   Updated: 2020/02/21 15:48:57 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "loader.h"
+
+int			allocate_buffer(int len, unsigned int size, void **ptr)
+{
+	if (len == 0)
+	{
+		ft_putendl_fd("ERROR::BUFFER::EMPTY", 2);
+		return (-1);
+	}
+	if (!(*ptr = ft_memalloc(len * size)))
+	{
+		ft_putendl_fd("ERROR::BUFFER::MALLOC_FAILED", 2);
+		return (-1);
+	}
+	return (0);
+}
 
 static void	update_vertices(float *vert_ptr, float max[3], float min[3])
 {
@@ -21,7 +36,23 @@ static void	update_vertices(float *vert_ptr, float max[3], float min[3])
 	vert_ptr[4] = (vert_ptr[1] - min[1]) / (max[1] - min[1]);
 }
 
-void		repos_model(t_buffer_obj *buffer)
+static void	update_cam(float *cam_z, float max[3], float min[3])
+{
+	float		range[3];
+	float		max_range;
+
+	range[0] = max[0] - min[0];
+	range[1] = max[1] - min[1];
+	range[2] = max[2] - min[2];
+	max_range = range[0];
+	if (max_range < range[1])
+		max_range = range[1];
+	if (max_range < range[2])
+		max_range = range[2];
+	*cam_z = -max_range * 1.5;
+}
+
+void		repos_model(t_buffer_obj *buffer, float *cam_z)
 {
 	float		max[3];
 	float		min[3];
@@ -44,6 +75,7 @@ void		repos_model(t_buffer_obj *buffer)
 	}
 	while (--i >= 0)
 		update_vertices(buffer->vertices + i * 5, max, min);
+	update_cam(cam_z, max, min);
 }
 
 void		gl_load(t_obj_render *obj, t_buffer_obj *buffer)

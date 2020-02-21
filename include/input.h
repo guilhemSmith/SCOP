@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/16 14:16:05 by gsmith            #+#    #+#             */
-/*   Updated: 2020/02/20 14:58:01 by gsmith           ###   ########.fr       */
+/*   Updated: 2020/02/21 14:38:05 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,6 @@
 # endif
 
 # define TRANS_SPEED 0.025
-# define MOVE_SPEED 2.5
+# define MOVE_SPEED 25
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/09 15:51:02 by gsmith            #+#    #+#             */
-/*   Updated: 2020/02/20 15:48:21 by gsmith           ###   ########.fr       */
+/*   Updated: 2020/02/21 14:33:28 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,9 +39,9 @@ static int		parse_obj(int fd, t_parsed_obj *obj)
 
 	while ((ret_val = get_next_line(fd, &line)) > 0)
 	{
-		if (line[0] && line[0] == 'v')
+		if (line[0] && line[0] == 'v' && line[1] && ft_isspace(line[1]))
 			ret_val = parse_vertice(line, obj);
-		else if (line[0] && line[0] == 'f')
+		else if (line[0] && line[0] == 'f' && line[1] && ft_isspace(line[1]))
 			ret_val = parse_face(line, obj);
 		ft_strdel(&line);
 		if (ret_val < 0)
@@ -68,12 +68,12 @@ static int		buff_vertice(t_list **lst, t_buffer_obj *buf)
 	t_list		*tmp;
 
 	buf->nb_vert = ft_lstlen(*lst) * 5;
-	i = 0;
-	if (!(buf->vertices = (float *)ft_memalloc(sizeof(float) * buf->nb_vert)))
+	if (allocate_buffer(buf->nb_vert, sizeof(float), (void**)&buf->vertices))
 	{
 		ft_lstdel(lst, del_vertice_face);
 		return (-1);
 	}
+	i = 0;
 	while (*lst)
 	{
 		j = -1;
@@ -94,7 +94,7 @@ static int		buff_triangles(t_parsed_obj *parsed, t_buffer_obj *buf)
 
 	buf->nb_indices = ft_lstlen(parsed->triangles) * 3 \
 		+ ft_lstlen(parsed->quads) * 6;
-	if (!(buf->indices = (int *)ft_memalloc(sizeof(int) * buf->nb_indices)))
+	if (allocate_buffer(buf->nb_indices, sizeof(int), (void**)&buf->indices))
 	{
 		ft_lstdel(&(parsed->triangles), &del_vertice_face);
 		ft_lstdel(&(parsed->quads), &del_vertice_face);
@@ -116,7 +116,8 @@ static int		buff_triangles(t_parsed_obj *parsed, t_buffer_obj *buf)
 	return (0);
 }
 
-unsigned int	load_object(t_obj_render *obj, int argc, char *argv[])
+unsigned int	load_object(t_obj_render *obj, float *cam_z, \
+	int argc, char *argv[])
 {
 	int				fd;
 	int				err_val;
@@ -132,7 +133,7 @@ unsigned int	load_object(t_obj_render *obj, int argc, char *argv[])
 	err_val = buff_vertice(&(parsed_data.vertices), &buffer_data);
 	err_val = buff_triangles(&parsed_data, &buffer_data);
 	obj->nb_elem = buffer_data.nb_indices * 6;
-	repos_model(&buffer_data);
+	repos_model(&buffer_data, cam_z);
 	gl_load(obj, &buffer_data);
 	ft_memdel((void **)&(buffer_data.vertices));
 	ft_memdel((void **)&(buffer_data.indices));
