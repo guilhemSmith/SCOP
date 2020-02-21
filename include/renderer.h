@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/16 11:28:06 by gsmith            #+#    #+#             */
-/*   Updated: 2020/02/20 14:52:06 by gsmith           ###   ########.fr       */
+/*   Updated: 2020/02/21 16:18:16 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,10 @@
 #  include <GL/glew.h>
 #  include <GLFW/glfw3.h>
 # endif
+
+# define ROT_X 0.0
+# define ROT_Y 1.0
+# define ROT_Z 0.0
 
 typedef struct	s_render_config {
 	unsigned int	shader;
