@@ -11,5 +11,5 @@ uniform float alpha;
 void main()
 {
 	frag_color = texture(texture_color, text_pos) * alpha;
-	frag_color += vec4(frag_col, 1.0) * (1.0 - alpha);
+	frag_color += vec4(frag_col, 1.0) * (1.0 - alpha) * 0.5;
 }

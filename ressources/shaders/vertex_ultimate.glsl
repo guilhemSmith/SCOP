@@ -16,9 +16,10 @@ void main()
 	text_pos = t_pos;
 	gl_Position = projection * view * model * vec4(a_pos, 1.0);
 
-    float r, g, b;
-    g = 1 - t_pos.x - t_pos.y;
-    r = t_pos.x;
-    b = t_pos.y;
-    frag_col = vec3(r, g, b) * 0.8;
+    float level;
+	if (gl_VertexID % 2 == 1)
+		level = (gl_VertexID % 8) * 0.125;
+	else
+		level = 1 - ((gl_VertexID % 8) * 0.125);
+    frag_col = vec3(level, level, level);
 }
